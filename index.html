@@ -139,6 +139,30 @@
       font-size: 24px;
     }
   }
+  /* LOGO SLIDE OUT & BACK */
+.logo {
+  animation: logoMove 3.5s ease-in-out forwards;
+}
+
+@keyframes logoMove {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%);
+  }
+  30% {
+    opacity: 0;
+    transform: translateX(-150%);
+  }
+  31% {
+    opacity: 0;
+    transform: translateX(150%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%);
+  }
+}
+
 </style>
 </head>
 
