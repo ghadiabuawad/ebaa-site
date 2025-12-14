@@ -3,11 +3,37 @@
 <head>
   <meta charset="utf-8">
   <title>Ebaa</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .box {
+      text-align: center;
+    }
+    a.button {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #2563eb;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+    a.button:hover {
+      background: #1d4ed8;
+    }
+  </style>
 </head>
 <body>
-  <h1>Welcome</h1>
-  <p>This is my website.</p>
-
-  <a href="https://example.com">My link</a>
+  <div class="box">
+    <h1>Welcome</h1>
+    <p>This is my website.</p>
+    <a class="button" href="https://example.com">My link</a>
+  </div>
 </body>
 </html>
