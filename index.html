@@ -103,39 +103,6 @@
     min-height: 1.5em;
   }
 
-  /* 🚗 CAR SVG ANIMATION */
-  .car {
-    position: fixed;
-    top: 65%;
-    left: -220px;
-    width: 220px;
-    z-index: 500;
-    pointer-events: none;
-    animation: carDrive 4.5s ease-in-out forwards;
-  }
-
-  .car svg {
-    width: 100%;
-    height: auto;
-  }
-
-  @keyframes carDrive {
-    0% {
-      left: 110%;
-    }
-    45% {
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    55% {
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    100% {
-      left: -220px;
-    }
-  }
-
   /* MOBILE / INSTAGRAM */
   @media (max-width: 600px) {
     body {
@@ -171,28 +138,11 @@
       margin-top: 30px;
       font-size: 24px;
     }
-
-    .car {
-      top: 72%;
-      width: 180px;
-    }
   }
 </style>
 </head>
 
 <body>
-
-<!-- 🚗 CAR -->
-<div class="car">
-  <svg viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
-    <!-- body -->
-    <rect x="20" y="22" width="160" height="22" rx="8" fill="#dc2626"/>
-    <rect x="55" y="8" width="90" height="20" rx="6" fill="#dc2626"/>
-    <!-- wheels -->
-    <circle cx="55" cy="50" r="8" fill="#111"/>
-    <circle cx="145" cy="50" r="8" fill="#111"/>
-  </svg>
-</div>
 
 <!-- LANGUAGE SWITCH -->
 <div class="lang-switch">
@@ -271,6 +221,7 @@
     typeText(texts[lang].slogan);
   }
 
+  /* START DEFAULT (HEBREW) */
   setTimeout(() => {
     typeText(texts.he.slogan);
   }, buttons.length * delayBetweenButtons + 500);
