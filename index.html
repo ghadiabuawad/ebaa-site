@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ebaa</title>
 
 <style>
@@ -15,14 +15,37 @@
     overflow: hidden;
   }
 
+  /* LANGUAGE SWITCH */
+  .lang-switch {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    gap: 10px;
+    z-index: 999;
+  }
+
+  .lang-switch button {
+    background: #222;
+    color: white;
+    border: 1px solid #444;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .lang-switch button:hover {
+    background: #dc2626;
+  }
+
   /* LOGO */
   .logo {
-  position: absolute;
-  top: 120px;
-  left: 50%;
-  transform: translateX(-50%); 
-}
-
+    position: absolute;
+    top: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 
   .logo img {
     width: 900px;
@@ -30,7 +53,7 @@
     display: block;
   }
 
-  /* BUTTONS CONTAINER */
+  /* BUTTONS */
   .buttons {
     position: absolute;
     top: 50%;
@@ -42,7 +65,6 @@
     align-items: center;
   }
 
-  /* BUTTON STYLE */
   .btn {
     width: 420px;
     padding: 36px 0;
@@ -55,8 +77,6 @@
     color: white;
     background: #dc2626;
     cursor: pointer;
-
-    /* animation start state */
     opacity: 0;
     transform: translateY(-20px);
     transition: opacity 0.6s ease, transform 0.6s ease;
@@ -78,136 +98,84 @@
     font-size: 36px;
     font-weight: 700;
     color: white;
-    letter-spacing: 1px;
     text-align: center;
     direction: rtl;
     min-height: 1.5em;
   }
 
-  @media (max-width: 480px) {
+  /* MOBILE / INSTAGRAM */
+  @media (max-width: 600px) {
+    body {
+      height: auto;
+      min-height: 100vh;
+    }
+
+    .logo {
+      position: relative;
+      top: 0;
+      margin-top: 60px;
+    }
+
+    .logo img {
+      width: 85vw;
+    }
+
+    .buttons {
+      position: relative;
+      top: 0;
+      left: 0;
+      transform: none;
+      margin-top: 40px;
+    }
+
     .btn {
-      width: 90vw;
-      font-size: 26px;
-      padding: 30px 0;
+      width: 88vw;
+      font-size: 24px;
+      padding: 26px 0;
     }
+
     .typing {
-      font-size: 22px;
+      margin-top: 30px;
+      font-size: 24px;
     }
   }
-  /* 📱 MOBILE FIX */
-@media (max-width: 480px) {
-
-  /* Bigger logo */
-  .logo img {
-    width: 110vw;
-    max-width: none;
-  }
-
-  /* Move logo down */
-  .logo {
-    top: 80px;
-  }
-
-  /* Bigger buttons */
-  .btn {
-    width: 92vw;
-    font-size: 28px;
-    padding: 32px 0;
-  }
-
-  /* Bigger sentence */
-  .typing {
-    font-size: 26px;
-    margin-top: 40px;
-  }
-}
-  /* FIX FOR MOBILE (Instagram / iPhone) */
-@media (max-width: 600px) {
-
-  body {
-    height: auto;
-    min-height: 100vh;
-  }
-
-  .logo {
-    position: relative;
-    top: 0;
-    margin-top: 60px;
-  }
-
-  .logo img {
-    width: 85vw; /* big but safe */
-  }
-
-  .buttons {
-    position: relative;
-    top: 0;
-    left: 0;
-    transform: none;
-    margin-top: 40px;
-  }
-
-  .btn {
-    width: 88vw;
-    font-size: 24px;
-    padding: 26px 0;
-  }
-
-  .typing {
-    margin-top: 30px;
-    font-size: 24px;
-    text-align: center;
-  }
-}
-
-/* 📱 Instagram / small phones ONLY */
-@media (max-width: 430px) {
-  .logo {
-    left: 50%;
-    transform: translateX(-48%);
-  }
-}
-/* 📸 Instagram in-app browser fix */
-@media (max-width: 430px) {
-  .logo {
-    transform: translateX(-50%);
-    margin-left: 10px; /* 👈 nudges right ONLY on Instagram */
-  }
-}
-
-
-
 </style>
 </head>
 
 <body>
 
-  <div class="logo">
-    <img src="6bbd8e2f-e5a3-426e-bb73-39813ccc44ca.jpg" alt="Ebwrapping logo">
-  </div>
+<!-- LANGUAGE SWITCH -->
+<div class="lang-switch">
+  <button onclick="setLang('he')">עברית</button>
+  <button onclick="setLang('ar')">عربي</button>
+</div>
 
-  <div class="buttons">
-    <a class="btn" href="site.html">כניסה לאתר</a>
+<div class="logo">
+  <img src="6bbd8e2f-e5a3-426e-bb73-39813ccc44ca.jpg" alt="Ebwrapping logo">
+</div>
 
-    <a class="btn"
-       href="https://maps.app.goo.gl/FVs2zzK3ZQsxWm4y8"
-       target="_blank">
-       מיקום שלנו
-    </a>
+<div class="buttons">
+  <a class="btn" id="btn-enter" href="site.html">כניסה לאתר</a>
 
-    <a class="btn"
-       href="https://wa.me/972504469777"
-       target="_blank">
-       להזמנות
-    </a>
+  <a class="btn" id="btn-location"
+     href="https://maps.app.goo.gl/FVs2zzK3ZQsxWm4y8"
+     target="_blank">
+     מיקום שלנו
+  </a>
 
-    <div class="typing" id="typing"></div>
-  </div>
+  <a class="btn" id="btn-order"
+     href="https://wa.me/972504469777"
+     target="_blank">
+     להזמנות
+  </a>
+
+  <div class="typing" id="typing"></div>
+</div>
 
 <script>
   /* BUTTON SEQUENCE */
   const buttons = document.querySelectorAll(".btn");
-  const delayBetweenButtons =  700;
+  const delayBetweenButtons = 700;
 
   buttons.forEach((btn, index) => {
     setTimeout(() => {
@@ -215,20 +183,50 @@
     }, index * delayBetweenButtons);
   });
 
-  /* TYPING TEXT (starts after buttons) */
-  const text = "איכות שמדברת בעד עצמה";
-  const el = document.getElementById("typing");
-  let i = 0;
-
-  function typeText() {
-    if (i < text.length) {
-      el.textContent += text.charAt(i);
-      i++;
-      setTimeout(typeText, 30);
+  /* LANGUAGE DATA */
+  const texts = {
+    he: {
+      enter: "כניסה לאתר",
+      location: "מיקום שלנו",
+      order: "להזמנות",
+      slogan: "איכות שמדברת בעד עצמה"
+    },
+    ar: {
+      enter: "الدخول إلى الموقع",
+      location: "موقعنا",
+      order: "للحجوزات",
+      slogan: "الجودة تتحدث عن نفسها"
     }
+  };
+
+  /* TYPING FUNCTION */
+  function typeText(text) {
+    const el = document.getElementById("typing");
+    el.textContent = "";
+    let i = 0;
+
+    function type() {
+      if (i < text.length) {
+        el.textContent += text.charAt(i);
+        i++;
+        setTimeout(type, 30);
+      }
+    }
+    type();
   }
 
-  setTimeout(typeText, buttons.length * delayBetweenButtons + 500);
+  /* SET LANGUAGE */
+  function setLang(lang) {
+    document.getElementById("btn-enter").textContent = texts[lang].enter;
+    document.getElementById("btn-location").textContent = texts[lang].location;
+    document.getElementById("btn-order").textContent = texts[lang].order;
+    typeText(texts[lang].slogan);
+  }
+
+  /* START DEFAULT (HEBREW) */
+  setTimeout(() => {
+    typeText(texts.he.slogan);
+  }, buttons.length * delayBetweenButtons + 500);
 </script>
 
 </body>
