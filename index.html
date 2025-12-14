@@ -38,22 +38,33 @@
     align-items: center;
   }
 
- .btn {
-  width: 300px;          /* wider button */
-  padding: 22px 0;       /* taller button */
+.btn {
+  width: 420px;            /* FULL big button */
+  padding: 36px 0;         /* very tall */
   text-align: center;
-  border-radius: 14px;   /* smoother */
-  font-size: 22px;       /* BIG text */
-  font-weight: bold;
+  border-radius: 20px;
+  font-size: 32px;         /* BIG text */
+  font-weight: 800;
+  letter-spacing: 1px;
   text-decoration: none;
   color: white;
   background: #dc2626;
+  transition: transform 0.15s ease, background 0.15s ease;
 }
 
-
-  .btn:hover {
-    background: #b91c1c;
+.btn:hover {
+  background: #b91c1c;
+  transform: scale(1.03);
+}
+  
+@media (max-width: 480px) {
+  .btn {
+    width: 90vw;           /* full screen on phone */
+    font-size: 26px;
+    padding: 30px 0;
   }
+}
+
 </style>
 
 
