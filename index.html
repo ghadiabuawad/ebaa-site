@@ -8,45 +8,51 @@
     margin: 0;
     font-family: Arial, sans-serif;
     height: 100vh;
-    background: url("49064ba3-7073-4ad2-91dc-5374d312cd24.jpg") no-repeat center center fixed;
-    background-size: cover;
+    background: url("49064ba3-7073-4ad2-91dc-5374d312cd24.jpg") center/cover no-repeat fixed;
+  }
+
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(4px);
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  .overlay {
-    background: rgba(0,0,0,0.5);
-    padding: 40px;
-    border-radius: 12px;
+  .content {
     text-align: center;
     color: white;
   }
 
-  .button {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 14px 28px;
-    text-decoration: none;
-    border-radius: 8px;
-    font-size: 18px;
-    color: white;
+  .content h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
   }
 
-  .red {
+  .button {
+    display: inline-block;
+    padding: 14px 32px;
+    font-size: 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: white;
     background: #dc2626;
   }
 
-  .red:hover {
+  .button:hover {
     background: #b91c1c;
   }
 </style>
-
 </head>
 <body>
   <div class="overlay">
-    <h1>EBWRAPING</h1>
-    <a class="button red" href="https://example.com">כניסה לאתר</a>
+    <div class="content">
+      <h1>EBWRAPING</h1>
+      <a class="button" href="https://example.com">כניסה לאתר</a>
+    </div>
   </div>
 </body>
 
