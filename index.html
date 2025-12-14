@@ -10,14 +10,14 @@
     height: 100vh;
     background-image: url("732df87f-2ccb-4b48-8784-456c1b225639.jpg");
     background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain; /* 👈 VERY IMPORTANT */
-    background-color: black;  /* fills empty space */
+    background-position: center center;
+    background-size: cover;   /* fills screen */
   }
 
   .overlay {
     position: fixed;
     inset: 0;
+    background: rgba(0,0,0,0.2); /* very light, keeps clarity */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,10 +26,16 @@
   .content {
     text-align: center;
     color: white;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  }
+
+  .content h1 {
+    font-size: 42px;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
   }
 
   .button {
-    margin-top: 20px;
     padding: 14px 32px;
     font-size: 18px;
     border-radius: 8px;
@@ -42,6 +48,7 @@
     background: #b91c1c;
   }
 </style>
+
 
 </head>
 <body>
