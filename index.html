@@ -21,7 +21,7 @@
   }
 
   .logo img {
-    width: 900px;        /* 🔥 bigger logo */
+    width: 900px;
     max-width: 98%;
     display: block;
   }
@@ -38,37 +38,36 @@
     align-items: center;
   }
 
-.btn {
-  width: 420px;            /* FULL big button */
-  padding: 36px 0;         /* very tall */
-  text-align: center;
-  border-radius: 20px;
-  font-size: 32px;         /* BIG text */
-  font-weight: 800;
-  letter-spacing: 1px;
-  text-decoration: none;
-  color: white;
-  background: #dc2626;
-  transition: transform 0.15s ease, background 0.15s ease;
-}
-
-.btn:hover {
-  background: #b91c1c;
-  transform: scale(1.03);
-}
-  
-@media (max-width: 480px) {
   .btn {
-    width: 90vw;           /* full screen on phone */
-    font-size: 26px;
-    padding: 30px 0;
+    width: 420px;
+    padding: 36px 0;
+    text-align: center;
+    border-radius: 20px;
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: white;
+    background: #dc2626;
+    transition: transform 0.15s ease, background 0.15s ease;
+    cursor: pointer;
   }
-}
 
+  .btn:hover {
+    background: #b91c1c;
+    transform: scale(1.03);
+  }
+
+  @media (max-width: 480px) {
+    .btn {
+      width: 90vw;
+      font-size: 26px;
+      padding: 30px 0;
+    }
+  }
 </style>
-
-
 </head>
+
 <body>
 
   <div class="logo">
@@ -76,19 +75,29 @@
   </div>
 
   <div class="buttons">
-    <a class="btn red" href="#">כניסה לאתר</a>
-   <a class="btn" href="https://maps.app.goo.gl/FVs2zzK3ZQsxWm4y8" target="_blank">
-  מיקום שלנו · Google Maps
-</a>
+    <a class="btn" href="#">כניסה לאתר</a>
 
-<a class="btn" href="https://waze.com/ul?q=https://maps.app.goo.gl/FVs2zzK3ZQsxWm4y8" target="_blank" style="display:none;"></a>
+    <!-- LOCATION BUTTON -->
+    <a class="btn" onclick="openNavigation()">
+      מיקום שלנו
+    </a>
 
-
-    <a class="btn red" href="#">להזמנות</a>
+    <a class="btn" href="#">להזמנות</a>
   </div>
 
+  <!-- NAVIGATION CHOICE SCRIPT -->
+  <script>
+    function openNavigation() {
+      const googleMaps = "https://maps.app.goo.gl/FVs2zzK3ZQsxWm4y8";
+      const waze = "https://waze.com/ul?navigate=yes&q=https://maps.app.goo.gl/FVs2zzK3ZQsxWm4y8";
+
+      if (confirm("בחר אפליקציית ניווט:\nאישור = Google Maps\nביטול = Waze")) {
+        window.open(googleMaps, "_blank");
+      } else {
+        window.open(waze, "_blank");
+      }
+    }
+  </script>
+
 </body>
-
-
-
 </html>
