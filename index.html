@@ -20,7 +20,7 @@
   position: absolute;
   top: 120px;
   left: 50%;
-  transform: translateX(-45%); /* ⬅️ moves logo slightly RIGHT */
+  transform: translateX(-50%); 
 }
 
 
@@ -159,6 +159,15 @@
     text-align: center;
   }
 }
+
+/* 📱 Instagram / small phones ONLY */
+@media (max-width: 430px) {
+  .logo {
+    left: 50%;
+    transform: translateX(-48%);
+  }
+}
+
 
 
 </style>
