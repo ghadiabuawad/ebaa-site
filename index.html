@@ -3,49 +3,40 @@
 <head>
   <meta charset="utf-8">
   <title>Ebaa</title>
- <style>
+<style>
   body {
     margin: 0;
-    font-family: Arial, sans-serif;
     height: 100vh;
-    background: url("732df87f-2ccb-4b48-8784-456c1b225639.jpg")
-      no-repeat center center / cover;
-  }
-
-  .overlay {
-    position: fixed;
-    inset: 0;
-  }
-
-  /* EBWRAPING text on windshield */
-  .brand {
-    position: absolute;
-    top: 38%; /* bottom of windshield */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 70%; /* mirror to mirror */
-    text-align: center;
-    color: white;
-    font-size: 42px;
-    font-weight: bold;
-    letter-spacing: 3px;
-    text-shadow: 0 3px 8px rgba(0,0,0,0.8);
-  }
-
-  /* buttons container */
-  .buttons {
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translateX(-50%);
+    background: black;
+    font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    align-items: center;
+  }
+
+  /* logo at top center */
+  .logo {
+    margin-top: 40px;
+  }
+
+  .logo img {
+    width: 420px;           /* sharp size */
+    max-width: 90%;
+    image-rendering: crisp-edges;
+    filter: drop-shadow(0 0 8px rgba(255,255,255,0.15));
+  }
+
+  /* buttons area */
+  .buttons {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
     align-items: center;
   }
 
   .btn {
-    width: 180px;
+    width: 200px;
     padding: 14px 0;
     text-align: center;
     border-radius: 8px;
@@ -59,8 +50,7 @@
   }
 
   .gray {
-    background: rgba(255,255,255,0.25);
-    backdrop-filter: blur(4px);
+    background: rgba(255,255,255,0.15);
   }
 
   .red:hover {
@@ -68,27 +58,26 @@
   }
 
   .gray:hover {
-    background: rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.25);
   }
 </style>
 
 
 </head>
 <body>
-  <div class="overlay">
 
-    <div class="brand">
-      EBWRAPING
-    </div>
-
-    <div class="buttons">
-      <a class="btn red" href="#">כניסה לאתר</a>
-      <a class="btn red" href="#">מיקום שלנו</a>
-      <a class="btn red" href="#">להזמנות</a>
-    </div>
-
+  <div class="logo">
+    <img src="6bbd8e2f-e5a3-426e-bb73-39813ccc44ca.jpg" alt="Ebwrapping logo">
   </div>
+
+  <div class="buttons">
+    <a class="btn red" href="#">כניסה לאתר</a>
+    <a class="btn red" href="#">מיקום שלנו</a>
+    <a class="btn red" href="#">להזמנות</a>
+  </div>
+
 </body>
+
 
 
 </html>
