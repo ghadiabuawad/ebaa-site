@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="he">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,11 +8,10 @@
 <style>
   body {
     margin: 0;
-    height: 100vh;
+    min-height: 100vh;
     background: black;
     font-family: Arial, sans-serif;
-    position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
   }
 
   /* LANGUAGE SWITCH */
@@ -39,18 +38,40 @@
     background: #dc2626;
   }
 
-  /* LOGO */
+  /* LOGO – FLEX CENTER (NO TRANSFORM CONFLICTS) */
   .logo {
     position: absolute;
     top: 120px;
-    left: 50%;
-    transform: translateX(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    animation: logoMove 3.5s ease-in-out forwards;
   }
 
   .logo img {
     width: 900px;
     max-width: 98%;
     display: block;
+  }
+
+  /* LOGO ANIMATION */
+  @keyframes logoMove {
+    0% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    30% {
+      opacity: 0;
+      transform: translateX(-120%);
+    }
+    31% {
+      opacity: 0;
+      transform: translateX(120%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 
   /* BUTTONS */
@@ -77,6 +98,7 @@
     color: white;
     background: #dc2626;
     cursor: pointer;
+
     opacity: 0;
     transform: translateY(-20px);
     transition: opacity 0.6s ease, transform 0.6s ease;
@@ -107,13 +129,13 @@
   @media (max-width: 600px) {
     body {
       height: auto;
-      min-height: 100vh;
     }
 
     .logo {
       position: relative;
       top: 0;
       margin-top: 60px;
+      padding-left: 14px; /* 👈 SAFE Instagram nudge */
     }
 
     .logo img {
@@ -139,42 +161,6 @@
       font-size: 24px;
     }
   }
-  /* LOGO SLIDE OUT & BACK */
-.logo {
-  animation: logoMove 3.5s ease-in-out forwards;
-}
-
-@keyframes logoMove {
-  0% {
-    opacity: 1;
-    transform: translateX(-50%);
-  }
-  30% {
-    opacity: 0;
-    transform: translateX(-150%);
-  }
-  31% {
-    opacity: 0;
-    transform: translateX(150%);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(-50%);
-  }
-}
-/* 📱 Phone / Instagram – tiny logo nudge */
-@media (max-width: 600px) {
-  .logo {
-    transform: translateX(-46%);
-  }
-}
-/* 📱 Instagram / mobile – force logo slightly right */
-@media (max-width: 600px) {
-  .logo img {
-    margin-left: 12px;
-  }
-}
-
 </style>
 </head>
 
@@ -186,10 +172,12 @@
   <button onclick="setLang('ar')">عربي</button>
 </div>
 
+<!-- LOGO -->
 <div class="logo">
   <img src="6bbd8e2f-e5a3-426e-bb73-39813ccc44ca.jpg" alt="Ebwrapping logo">
 </div>
 
+<!-- BUTTONS -->
 <div class="buttons">
   <a class="btn" id="btn-enter" href="site.html">כניסה לאתר</a>
 
