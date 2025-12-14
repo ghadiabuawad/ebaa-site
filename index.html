@@ -4,39 +4,34 @@
   <meta charset="utf-8">
   <title>Ebaa</title>
 <style>
-  * {
-    box-sizing: border-box;
-  }
-
   body {
     margin: 0;
-    padding: 0;
+    height: 100vh;
     background: black;
     font-family: Arial, sans-serif;
-    overflow-x: hidden; /* no side scroll */
+    position: relative;
   }
 
-  /* FULL SCREEN LOGO AREA */
-  .hero {
-    width: 100vw;       /* full screen width */
-    height: 100vh;      /* full screen height */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .hero img {
-    width: 100vw;       /* 🔥 edge to edge */
-    max-width: none;    /* remove limit */
-    height: auto;
-  }
-
-  /* BUTTONS CENTER */
-  .buttons {
+  /* LOGO – big, top center */
+  .logo {
     position: absolute;
-    top: 65%;
+    top: 30px;
     left: 50%;
     transform: translateX(-50%);
+  }
+
+  .logo img {
+    width: 800px;        /* 🔥 bigger logo */
+    max-width: 98%;
+    display: block;
+  }
+
+  /* BUTTONS – dead center */
+  .buttons {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -60,18 +55,17 @@
 </style>
 
 
-
 </head>
 <body>
 
-  <div class="hero">
+  <div class="logo">
     <img src="6bbd8e2f-e5a3-426e-bb73-39813ccc44ca.jpg" alt="Ebwrapping logo">
   </div>
 
   <div class="buttons">
-    <a class="btn" href="#">כניסה לאתר</a>
-    <a class="btn" href="#">מיקום שלנו</a>
-    <a class="btn" href="#">להזמנות</a>
+    <a class="btn red" href="#">כניסה לאתר</a>
+    <a class="btn red" href="#">מיקום שלנו</a>
+    <a class="btn red" href="#">להזמנות</a>
   </div>
 
 </body>
