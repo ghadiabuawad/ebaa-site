@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Ebaa</title>
+
 <style>
   body {
     margin: 0;
@@ -12,7 +13,7 @@
     position: relative;
   }
 
-  /* LOGO – big, top center */
+  /* LOGO */
   .logo {
     position: absolute;
     top: 120px;
@@ -26,7 +27,7 @@
     display: block;
   }
 
-  /* BUTTONS – dead center */
+  /* BUTTONS */
   .buttons {
     position: absolute;
     top: 50%;
@@ -49,13 +50,11 @@
     text-decoration: none;
     color: white;
     background: #dc2626;
-    transition: transform 0.15s ease, background 0.15s ease;
     cursor: pointer;
   }
 
   .btn:hover {
     background: #b91c1c;
-    transform: scale(1.03);
   }
 
   @media (max-width: 480px) {
@@ -64,6 +63,44 @@
       font-size: 26px;
       padding: 30px 0;
     }
+  }
+
+  /* NAV BUBBLE */
+  .nav-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-box {
+    background: #111;
+    padding: 24px;
+    border-radius: 20px;
+    display: flex;
+    gap: 16px;
+  }
+
+  .nav-btn {
+    width: 160px;
+    padding: 20px 0;
+    border-radius: 14px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+  }
+
+  .maps {
+    background: #1a73e8;
+  }
+
+  .waze {
+    background: #05c8f7;
+    color: black;
   }
 </style>
 </head>
@@ -77,27 +114,37 @@
   <div class="buttons">
     <a class="btn" href="#">כניסה לאתר</a>
 
-    <!-- LOCATION BUTTON -->
-    <a class="btn" onclick="openNavigation()">
-      מיקום שלנו
-    </a>
+    <a class="btn" onclick="openNav()">מיקום שלנו</a>
 
     <a class="btn" href="#">להזמנות</a>
   </div>
 
-  <!-- NAVIGATION CHOICE SCRIPT -->
-  <script>
-    function openNavigation() {
-      const googleMaps = "https://maps.app.goo.gl/FVs2zzK3ZQsxWm4y8";
-      const waze = "https://waze.com/ul?navigate=yes&q=https://maps.app.goo.gl/FVs2zzK3ZQsxWm4y8";
+  <!-- NAVIGATION BUBBLE -->
+  <div class="nav-overlay" id="nav">
+    <div class="nav-box">
+      <a class="nav-btn maps"
+         href="https://maps.app.goo.gl/FVs2zzK3ZQsxWm4y8"
+         target="_blank">
+        Google Maps
+      </a>
 
-      if (confirm("בחר אפליקציית ניווט:\nאישור = Google Maps\nביטול = Waze")) {
-        window.open(googleMaps, "_blank");
-      } else {
-        window.open(waze, "_blank");
-      }
-    }
-  </script>
+      <a class="nav-btn waze"
+         href="https://waze.com/ul?navigate=yes&q=https://maps.app.goo.gl/FVs2zzK3ZQsxWm4y8"
+         target="_blank">
+        Waze
+      </a>
+    </div>
+  </div>
+
+<script>
+  function openNav() {
+    document.getElementById("nav").style.display = "flex";
+  }
+
+  document.getElementById("nav").addEventListener("click", function(e) {
+    if (e.target === this) this.style.display = "none";
+  });
+</script>
 
 </body>
 </html>
