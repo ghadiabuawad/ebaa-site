@@ -72,22 +72,18 @@
     transform: scale(1.03);
   }
 
-  /* TYPING TEXT */
- /* TYPING TEXT – NO CURSOR */
-/* TYPING TEXT – adjusted */
+/* TYPING TEXT – smooth & correct */
 .typing {
-  margin-top: 40px;          /* ⬇️ more down */
-  margin-left: 20px;         /* ➡️ little to the right */
-  font-size: 32px;           /* 🔍 bigger */
+  margin-top: 55px;        /* ⬇️ more down */
+  font-size: 36px;         /* 🔍 bigger */
   font-weight: 700;
   color: #ffffff;
-  letter-spacing: 1.5px;
-  white-space: nowrap;
-  overflow: hidden;
-  width: 0;
-  animation: typing 2.8s steps(20) forwards;
-  animation-delay: 1s;
+  letter-spacing: 1px;
+  text-align: center;
+  direction: rtl;          /* IMPORTANT for Hebrew */
+  min-height: 1.5em;
 }
+
 
 
   @keyframes typing {
@@ -133,10 +129,27 @@
        target="_blank">
        להזמנות
     </a>
-
     <!-- TYPING MESSAGE -->
-    <div class="typing">על האיכות לא מתפשרים</div>
-  </div>
+<div class="typing" id="typing"></div>
+</div>
+
+<script>
+  const text = "על האיכות לא מתפשרים";
+  const el = document.getElementById("typing");
+  let i = 0;
+
+  function typeText() {
+    if (i < text.length) {
+      el.textContent += text.charAt(i);
+      i++;
+      setTimeout(typeText, 90);
+    }
+  }
+
+  setTimeout(typeText, 1000);
+</script>
+
+    
 
 </body>
 </html>
