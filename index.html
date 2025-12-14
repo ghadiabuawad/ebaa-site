@@ -64,48 +64,6 @@
       padding: 30px 0;
     }
   }
-
-  /* ===== BOTTOM SHEET (ONLY CHANGE) ===== */
-  .nav-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    display: none;
-    align-items: flex-end;   /* ⬅ bottom */
-    justify-content: center;
-    z-index: 999;
-  }
-
-  .nav-box {
-    background: #111;
-    width: 100%;
-    max-width: 500px;
-    padding: 24px;
-    border-radius: 24px 24px 0 0; /* rounded top */
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-  }
-
-  .nav-btn {
-    flex: 1;
-    padding: 22px 0;
-    border-radius: 16px;
-    text-align: center;
-    font-size: 22px;
-    font-weight: bold;
-    color: white;
-    text-decoration: none;
-  }
-
-  .maps {
-    background: #1a73e8;
-  }
-
-  .waze {
-    background: #05c8f7;
-    color: black;
-  }
 </style>
 </head>
 
@@ -118,37 +76,15 @@
   <div class="buttons">
     <a class="btn" href="#">כניסה לאתר</a>
 
-    <a class="btn" onclick="openNav()">מיקום שלנו</a>
+    <!-- GOOGLE MAPS ONLY -->
+    <a class="btn"
+       href="https://maps.app.goo.gl/FVs2zzK3ZQsxWm4y8"
+       target="_blank">
+       מיקום שלנו
+    </a>
 
     <a class="btn" href="#">להזמנות</a>
   </div>
-
-  <!-- BOTTOM NAVIGATION SHEET -->
-  <div class="nav-overlay" id="nav">
-    <div class="nav-box">
-      <a class="nav-btn maps"
-         href="https://maps.app.goo.gl/FVs2zzK3ZQsxWm4y8"
-         target="_blank">
-        Google Maps
-      </a>
-
-      <a class="nav-btn waze"
-         href="https://waze.com/ul?navigate=yes&q=https://maps.app.goo.gl/FVs2zzK3ZQsxWm4y8"
-         target="_blank">
-        Waze
-      </a>
-    </div>
-  </div>
-
-<script>
-  function openNav() {
-    document.getElementById("nav").style.display = "flex";
-  }
-
-  document.getElementById("nav").addEventListener("click", function(e) {
-    if (e.target === this) this.style.display = "none";
-  });
-</script>
 
 </body>
 </html>
