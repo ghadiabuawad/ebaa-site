@@ -73,21 +73,20 @@
   }
 
   /* TYPING TEXT */
-  .typing {
-    margin-top: 22px;
-    font-size: 26px;
-    font-weight: 600;
-    color: #ffffff;
-    letter-spacing: 1px;
-    white-space: nowrap;
-    border-right: 2px solid white;
-    width: 0;
-    overflow: hidden;
-    animation:
-      typing 2.5s steps(20) forwards,
-      blink 0.7s infinite;
-    animation-delay: 1s; /* starts AFTER buttons stop */
-  }
+ /* TYPING TEXT – NO CURSOR */
+.typing {
+  margin-top: 22px;
+  font-size: 26px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+  animation: typing 2.5s steps(20) forwards;
+  animation-delay: 1s; /* starts AFTER buttons stop */
+}
+
 
   @keyframes typing {
     from { width: 0; }
