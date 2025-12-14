@@ -28,7 +28,7 @@
     display: block;
   }
 
-  /* BUTTONS */
+  /* BUTTONS CONTAINER */
   .buttons {
     position: absolute;
     top: 50%;
@@ -38,20 +38,9 @@
     flex-direction: column;
     gap: 28px;
     align-items: center;
-    animation: dropIn 0.9s ease-out forwards;
   }
 
-  @keyframes dropIn {
-    0% {
-      opacity: 0;
-      transform: translate(-50%, -80%);
-    }
-    100% {
-      opacity: 1;
-      transform: translate(-50%, -50%);
-    }
-  }
-
+  /* BUTTON STYLE */
   .btn {
     width: 420px;
     padding: 36px 0;
@@ -64,7 +53,16 @@
     color: white;
     background: #dc2626;
     cursor: pointer;
-    transition: background 0.2s ease, transform 0.2s ease;
+
+    /* animation start state */
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .btn.show {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .btn:hover {
@@ -72,27 +70,16 @@
     transform: scale(1.03);
   }
 
-/* TYPING TEXT – smooth & correct */
-.typing {
-  margin-top: 55px;        /* ⬇️ more down */
-  font-size: 36px;         /* 🔍 bigger */
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 1px;
-  text-align: center;
-  direction: rtl;          /* IMPORTANT for Hebrew */
-  min-height: 1.5em;
-}
-
-
-
-  @keyframes typing {
-    from { width: 0; }
-    to { width: 320px; }
-  }
-
-  @keyframes blink {
-    50% { border-color: transparent; }
+  /* TYPING TEXT */
+  .typing {
+    margin-top: 55px;
+    font-size: 36px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 1px;
+    text-align: center;
+    direction: rtl;
+    min-height: 1.5em;
   }
 
   @media (max-width: 480px) {
@@ -103,7 +90,6 @@
     }
     .typing {
       font-size: 22px;
-      width: 260px;
     }
   }
 </style>
@@ -129,12 +115,23 @@
        target="_blank">
        להזמנות
     </a>
-    <!-- TYPING MESSAGE -->
-<div class="typing" id="typing"></div>
-</div>
+
+    <div class="typing" id="typing"></div>
+  </div>
 
 <script>
- const text = "איכות שמדברת בעד עצמה.......";
+  /* BUTTON SEQUENCE */
+  const buttons = document.querySelectorAll(".btn");
+  const delayBetweenButtons = 2000;
+
+  buttons.forEach((btn, index) => {
+    setTimeout(() => {
+      btn.classList.add("show");
+    }, index * delayBetweenButtons);
+  });
+
+  /* TYPING TEXT (starts after buttons) */
+  const text = "איכות שמדברת בעד עצמה";
   const el = document.getElementById("typing");
   let i = 0;
 
@@ -146,10 +143,8 @@
     }
   }
 
-  setTimeout(typeText, 1000);
+  setTimeout(typeText, buttons.length * delayBetweenButtons + 500);
 </script>
-
-    
 
 </body>
 </html>
