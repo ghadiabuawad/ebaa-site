@@ -35,60 +35,43 @@
       font-weight: bold;
     }
 
-    /* ===== SLIDER – WORKING INSTAGRAM STYLE ===== */
+    /* ===== INSTAGRAM SAFE SLIDER ===== */
     .slider {
-      width: 100%;
       max-width: 380px;
-      height: 420px;
       margin: 0 auto;
-      overflow: hidden;
-      border-radius: 18px;
-      position: relative;
-
-      touch-action: pan-x; /* ✅ סווייפ אופקי */
-    }
-
-    .slides {
       display: flex;
-      height: 100%;
-      transition: transform 0.25s ease;
-      will-change: transform;
+      gap: 12px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 10px;
     }
 
-    .slides img {
+    .slider::-webkit-scrollbar {
+      display: none;
+    }
+
+    .slide {
+      min-width: 100%;
+      height: 360px;
+      scroll-snap-align: center;
+      border-radius: 18px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .slide img {
       width: 100%;
       height: 100%;
-      flex-shrink: 0;
       object-fit: cover;
-      border-radius: 18px;
-
+      display: block;
       user-select: none;
       -webkit-user-drag: none;
-      pointer-events: auto; /* ✅ חובה */
-    }
-
-    .dots {
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      margin-top: 12px;
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      background: #555;
-      border-radius: 50%;
-    }
-
-    .dot.active {
-      background: white;
     }
 
     @media (max-width: 600px) {
-      .slider {
-        max-width: 92vw;
-        height: 360px;
+      .slide {
+        height: 320px;
       }
     }
   </style>
@@ -108,33 +91,29 @@
   <h2>העבודות שלנו</h2>
 
   <div class="slider">
-    <div class="slides" id="slides">
-      <img src="work1.jpg">
-      <img src="work2.jpg">
-      <img src="work3.jpg">
-      <img src="work4.jpg">
-      <img src="work5.jpg">
-      <img src="work6.jpg">
-      <img src="work7.jpg">
-      <img src="work8.jpg">
-      <img src="work9.jpg">
-      <img src="work10.jpg">
-      <img src="work11.jpg">
-      <img src="work12.jpg">
-      <img src="work13.jpg">
-      <img src="work14.jpg">
-      <img src="work15.jpg">
-      <img src="work16.jpg">
-      <img src="work17.jpg">
-      <img src="work18.jpg">
-      <img src="work20.jpg">
-      <img src="work21.jpg">
-      <img src="work22.jpg">
-      <img src="work23.jpg">
-    </div>
+    <div class="slide"><img src="work1.jpg"></div>
+    <div class="slide"><img src="work2.jpg"></div>
+    <div class="slide"><img src="work3.jpg"></div>
+    <div class="slide"><img src="work4.jpg"></div>
+    <div class="slide"><img src="work5.jpg"></div>
+    <div class="slide"><img src="work6.jpg"></div>
+    <div class="slide"><img src="work7.jpg"></div>
+    <div class="slide"><img src="work8.jpg"></div>
+    <div class="slide"><img src="work9.jpg"></div>
+    <div class="slide"><img src="work10.jpg"></div>
+    <div class="slide"><img src="work11.jpg"></div>
+    <div class="slide"><img src="work12.jpg"></div>
+    <div class="slide"><img src="work13.jpg"></div>
+    <div class="slide"><img src="work14.jpg"></div>
+    <div class="slide"><img src="work15.jpg"></div>
+    <div class="slide"><img src="work16.jpg"></div>
+    <div class="slide"><img src="work17.jpg"></div>
+    <div class="slide"><img src="work18.jpg"></div>
+    <div class="slide"><img src="work20.jpg"></div>
+    <div class="slide"><img src="work21.jpg"></div>
+    <div class="slide"><img src="work22.jpg"></div>
+    <div class="slide"><img src="work23.jpg"></div>
   </div>
-
-  <div class="dots" id="dots"></div>
 </section>
 
 <!-- SERVICES -->
@@ -143,71 +122,6 @@
   <p>עטיפת רכב • השחרת חלונות • PPF • עיצוב מיוחד</p>
   <a class="btn" href="https://wa.me/9725XXXXXXXX">קבע תור</a>
 </section>
-
-<script>
-  const slides = document.getElementById("slides");
-  const images = slides.children;
-  const dotsContainer = document.getElementById("dots");
-
-  let index = 0;
-  let startX = 0;
-  let currentX = 0;
-  let isDragging = false;
-  let autoSlide;
-
-  // dots
-  for (let i = 0; i < images.length; i++) {
-    const dot = document.createElement("div");
-    dot.className = "dot" + (i === 0 ? " active" : "");
-    dotsContainer.appendChild(dot);
-  }
-
-  const dots = document.querySelectorAll(".dot");
-
-  function updateSlider() {
-    slides.style.transform = `translateX(-${index * 100}%)`;
-    dots.forEach(d => d.classList.remove("active"));
-    dots[index].classList.add("active");
-  }
-
-  function nextSlide() {
-    index = (index + 1) % images.length;
-    updateSlider();
-  }
-
-  function startAuto() {
-    autoSlide = setInterval(nextSlide, 3500);
-  }
-
-  function stopAuto() {
-    clearInterval(autoSlide);
-  }
-
-  slides.addEventListener("touchstart", e => {
-    stopAuto();
-    isDragging = true;
-    startX = e.touches[0].clientX;
-  }, { passive: true });
-
-  slides.addEventListener("touchmove", e => {
-    if (!isDragging) return;
-    currentX = e.touches[0].clientX;
-  }, { passive: true });
-
-  slides.addEventListener("touchend", () => {
-    if (!isDragging) return;
-    const diff = startX - currentX;
-
-    if (diff > 40 && index < images.length - 1) index++;
-    if (diff < -40 && index > 0) index--;
-
-    updateSlider();
-    startAuto();
-    isDragging = false;
-  });
-
-  startAuto();
-</script>
 
 </body>
 </html>
