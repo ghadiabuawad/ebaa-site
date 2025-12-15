@@ -1,157 +1,138 @@
 <!DOCTYPE html>
 <html lang="he">
 <head>
-  <meta charset="UTF-8">
-  <title>EBWRAPING</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EBWRAPING</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #000;
-      color: white;
-      direction: rtl;
-    }
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#000;
+  color:#fff;
+  direction:rtl;
+}
 
-    section {
-      padding: 60px 20px;
-      text-align: center;
-    }
+section{
+  padding:60px 20px;
+  text-align:center;
+}
 
-    h1, h2 {
-      margin-bottom: 20px;
-    }
+.btn{
+  display:inline-block;
+  margin-top:20px;
+  padding:18px 40px;
+  background:#dc2626;
+  color:white;
+  text-decoration:none;
+  font-size:22px;
+  border-radius:12px;
+  font-weight:bold;
+}
 
-    .btn {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 18px 40px;
-      background: #dc2626;
-      color: white;
-      text-decoration: none;
-      font-size: 22px;
-      border-radius: 12px;
-      font-weight: bold;
-    }
+/* ===== SLIDER ===== */
+.slider{
+  max-width:420px;
+  margin:0 auto;
+  overflow:hidden;
+  border-radius:18px;
 
-    /* ===== SLIDER ===== */
-    .slider {
-      max-width: 420px;
-      margin: 0 auto;
-      overflow: hidden;
-      border-radius: 18px;
-      direction: ltr; /* חובה */
-      touch-action: pan-x;
-    }
+  /* 🔥 קריטי לאינסטגרם */
+  touch-action: none;
+}
 
-    .slides {
-      display: flex;
-      transition: transform 0.35s ease;
-      will-change: transform;
-    }
+.slides{
+  display:flex;
+  transition:transform .3s ease;
+}
 
-    .slide {
-      min-width: 100%;
-      height: 420px;
-      background: #000;
-      flex-shrink: 0;
-    }
+.slide{
+  min-width:100%;
+  height:420px;
+  background:black;
+  flex-shrink:0;
+}
 
-    .slide img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-      background: #000;
+.slide img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  background:black;
 
-      /* 🔥 קריטי */
-      pointer-events: none;
-      user-select: none;
-      -webkit-user-drag: none;
-    }
+  /* 🔥 חובה */
+  pointer-events:none;
+  user-select:none;
+  -webkit-user-drag:none;
+}
 
-    @media (max-width: 600px) {
-      .slide {
-        height: 380px;
-      }
-    }
-  </style>
+@media(max-width:600px){
+  .slide{height:360px;}
+}
+</style>
 </head>
 
 <body>
 
-<!-- HERO -->
 <section>
   <h1>EBWRAPING</h1>
   <p>עטיפות רכב • השחרת חלונות • PPF</p>
-  <a class="btn" href="https://wa.me/9725XXXXXXXX">קביעת תור</a>
+  <a class="btn" href="#">קביעת תור</a>
 </section>
 
-<!-- GALLERY -->
 <section>
-  <h2>העבודות שלנו</h2>
+<h2>העבודות שלנו</h2>
 
-  <div class="slider" id="slider">
-    <div class="slides" id="slides">
-      <div class="slide"><img src="work1.jpg"></div>
-      <div class="slide"><img src="work2.jpg"></div>
-      <div class="slide"><img src="work3.jpg"></div>
-      <div class="slide"><img src="work4.jpg"></div>
-      <div class="slide"><img src="work5.jpg"></div>
-      <div class="slide"><img src="work6.jpg"></div>
-      <div class="slide"><img src="work7.jpg"></div>
-      <div class="slide"><img src="work8.jpg"></div>
-      <div class="slide"><img src="work9.jpg"></div>
-      <div class="slide"><img src="work10.jpg"></div>
-      <div class="slide"><img src="work11.jpg"></div>
-      <div class="slide"><img src="work12.jpg"></div>
-      <div class="slide"><img src="work13.jpg"></div>
-      <div class="slide"><img src="work14.jpg"></div>
-      <div class="slide"><img src="work15.jpg"></div>
-      <div class="slide"><img src="work16.jpg"></div>
-      <div class="slide"><img src="work17.jpg"></div>
-      <div class="slide"><img src="work18.jpg"></div>
-      <div class="slide"><img src="work20.jpg"></div>
-      <div class="slide"><img src="work21.jpg"></div>
-      <div class="slide"><img src="work22.jpg"></div>
-      <div class="slide"><img src="work23.jpg"></div>
-    </div>
+<div class="slider" id="slider">
+  <div class="slides" id="slides">
+    <div class="slide"><img src="work1.jpg"></div>
+    <div class="slide"><img src="work2.jpg"></div>
+    <div class="slide"><img src="work3.jpg"></div>
+    <div class="slide"><img src="work4.jpg"></div>
+    <div class="slide"><img src="work5.jpg"></div>
   </div>
+</div>
 </section>
 
-<!-- SERVICES -->
 <section>
-  <h2>השירותים שלנו</h2>
-  <p>עטיפת רכב • השחרת חלונות • PPF • עיצוב מיוחד</p>
-  <a class="btn" href="https://wa.me/9725XXXXXXXX">קבע תור</a>
+<h2>השירותים שלנו</h2>
+<p>עטיפת רכב • השחרת חלונות • PPF</p>
 </section>
 
 <script>
-  const slider = document.getElementById("slider");
-  const slides = document.getElementById("slides");
-  const total = slides.children.length;
+const slider = document.getElementById("slider");
+const slides = document.getElementById("slides");
+const total = slides.children.length;
 
-  let index = 0;
-  let startX = 0;
+let index = 0;
+let startX = 0;
+let dragging = false;
 
-  function update() {
-    slides.style.transform = `translateX(-${index * 100}%)`;
-  }
+function update(){
+  slides.style.transform = `translateX(-${index*100}%)`;
+}
 
-  slider.addEventListener("touchstart", e => {
-    startX = e.touches[0].clientX;
-  }, { passive: true });
+slider.addEventListener("touchstart", e=>{
+  dragging = true;
+  startX = e.touches[0].clientX;
+},{passive:false});
 
-  slider.addEventListener("touchend", e => {
-    const endX = e.changedTouches[0].clientX;
-    const diff = startX - endX;
+slider.addEventListener("touchmove", e=>{
+  if(!dragging) return;
+  e.preventDefault(); // 🔥 זה מה שמבטל את “החבל”
+},{passive:false});
 
-    if (diff > 40 && index < total - 1) index++;
-    if (diff < -40 && index > 0) index--;
+slider.addEventListener("touchend", e=>{
+  if(!dragging) return;
+  const endX = e.changedTouches[0].clientX;
+  const diff = startX - endX;
 
-    update();
-  });
+  if(diff > 40 && index < total-1) index++;
+  if(diff < -40 && index > 0) index--;
+
+  update();
+  dragging = false;
+});
 </script>
 
 </body>
