@@ -35,16 +35,15 @@
       font-weight: bold;
     }
 
-    /* ===== INSTAGRAM SAFE SLIDER ===== */
+    /* ===== INSTAGRAM PERFECT SLIDER ===== */
     .slider {
-      max-width: 380px;
+      max-width: 420px;
       margin: 0 auto;
       display: flex;
-      gap: 12px;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
-      padding-bottom: 10px;
     }
 
     .slider::-webkit-scrollbar {
@@ -53,29 +52,30 @@
 
     .slide {
       min-width: 100%;
-      height: 360px;
-      scroll-snap-align: center;
+      height: 420px;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
       border-radius: 18px;
       overflow: hidden;
       background: #000;
       flex-shrink: 0;
     }
 
-    /* ✅ NO CROP – PERFECT FOR MIXED IMAGES */
     .slide img {
       width: 100%;
       height: 100%;
-      object-fit: contain;     /* 🔥 זה התיקון החשוב */
+      object-fit: contain;
       object-position: center;
       display: block;
+      background: #000;
       user-select: none;
       -webkit-user-drag: none;
-      background: #000;
     }
 
+    /* 📱 MOBILE */
     @media (max-width: 600px) {
       .slide {
-        height: 320px;
+        height: 380px;
       }
     }
   </style>
