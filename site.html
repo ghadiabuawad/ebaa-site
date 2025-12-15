@@ -35,27 +35,44 @@
       font-weight: bold;
     }
 
-    /* ===== SLIDER ===== */
-    .slider {
-      max-width: 420px;
-      margin: 0 auto;
-      overflow: hidden;
-      border-radius: 16px;
-      position: relative;
-      touch-action: pan-y; /* חשוב לאינסטגרם */
-    }
+  /* ===== SLIDER (MOBILE OPTIMIZED) ===== */
+.slider {
+  max-width: 420px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 16px;
+  position: relative;
 
-    .slides {
-      display: flex;
-      transition: transform 0.35s ease;
-    }
+  /* 🔥 קריטי לסווייפ באינסטגרם */
+  touch-action: pan-y;
+}
 
-    .slides img {
-      width: 100%;
-      flex-shrink: 0;
-      border-radius: 16px;
-      user-select: none;
-    }
+.slides {
+  display: flex;
+
+  /* בזמן גרירה ה-JS מבטל transition */
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
+
+.slides img {
+  width: 100%;
+  flex-shrink: 0;
+  border-radius: 16px;
+
+  /* 🔥 מונע בחירה ו"תקיעה" */
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
 
     .dots {
       display: flex;
