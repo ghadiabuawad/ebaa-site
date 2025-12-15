@@ -35,7 +35,7 @@
       font-weight: bold;
     }
 
-    /* ===== SLIDER – INSTAGRAM STYLE ===== */
+    /* ===== SLIDER – WORKING INSTAGRAM STYLE ===== */
     .slider {
       width: 100%;
       max-width: 380px;
@@ -45,13 +45,13 @@
       border-radius: 18px;
       position: relative;
 
-      touch-action: pan-y; /* קריטי לאינסטגרם */
+      touch-action: pan-x; /* ✅ סווייפ אופקי */
     }
 
     .slides {
       display: flex;
       height: 100%;
-      transition: transform 0.3s ease;
+      transition: transform 0.25s ease;
       will-change: transform;
     }
 
@@ -59,12 +59,12 @@
       width: 100%;
       height: 100%;
       flex-shrink: 0;
-      object-fit: cover; /* כמו אינסטגרם */
+      object-fit: cover;
       border-radius: 18px;
 
       user-select: none;
       -webkit-user-drag: none;
-      pointer-events: none;
+      pointer-events: auto; /* ✅ חובה */
     }
 
     .dots {
@@ -85,7 +85,6 @@
       background: white;
     }
 
-    /* 📱 MOBILE – עוד יותר נוח */
     @media (max-width: 600px) {
       .slider {
         max-width: 92vw;
@@ -152,6 +151,8 @@
 
   let index = 0;
   let startX = 0;
+  let currentX = 0;
+  let isDragging = false;
   let autoSlide;
 
   // dots
@@ -184,18 +185,25 @@
 
   slides.addEventListener("touchstart", e => {
     stopAuto();
+    isDragging = true;
     startX = e.touches[0].clientX;
   }, { passive: true });
 
-  slides.addEventListener("touchend", e => {
-    const endX = e.changedTouches[0].clientX;
-    const diff = startX - endX;
+  slides.addEventListener("touchmove", e => {
+    if (!isDragging) return;
+    currentX = e.touches[0].clientX;
+  }, { passive: true });
 
-    if (diff > 25 && index < images.length - 1) index++;
-    if (diff < -25 && index > 0) index--;
+  slides.addEventListener("touchend", () => {
+    if (!isDragging) return;
+    const diff = startX - currentX;
+
+    if (diff > 40 && index < images.length - 1) index++;
+    if (diff < -40 && index > 0) index--;
 
     updateSlider();
     startAuto();
+    isDragging = false;
   });
 
   startAuto();
