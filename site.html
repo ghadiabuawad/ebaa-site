@@ -12,6 +12,7 @@
       background: #000;
       color: white;
       overflow-x: hidden;
+      direction: rtl;
     }
 
     section {
@@ -44,6 +45,8 @@
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
+
+      direction: ltr; /* 🔥 חובה – פותר סווייפ באינסטגרם */
     }
 
     .slider::-webkit-scrollbar {
@@ -72,7 +75,6 @@
       -webkit-user-drag: none;
     }
 
-    /* 📱 MOBILE */
     @media (max-width: 600px) {
       .slide {
         height: 380px;
@@ -83,14 +85,12 @@
 
 <body>
 
-<!-- HERO -->
 <section>
   <h1>EBWRAPING</h1>
   <p>עטיפות רכב • השחרת חלונות • PPF</p>
   <a class="btn" href="https://wa.me/9725XXXXXXXX">קביעת תור</a>
 </section>
 
-<!-- GALLERY -->
 <section>
   <h2>העבודות שלנו</h2>
 
@@ -120,7 +120,6 @@
   </div>
 </section>
 
-<!-- SERVICES -->
 <section>
   <h2>השירותים שלנו</h2>
   <p>עטיפת רכב • השחרת חלונות • PPF • עיצוב מיוחד</p>
