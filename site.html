@@ -31,37 +31,35 @@ section{
   font-weight:bold;
 }
 
-/* ===== SLIDER ===== */
+/* ===== INSTAGRAM STYLE SCROLL ===== */
 .slider{
   max-width:420px;
   margin:0 auto;
-  overflow:hidden;
-  border-radius:18px;
-
-  /* 🔥 קריטי לאינסטגרם */
-  touch-action: none;
+  display:flex;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  gap:0;
 }
 
-.slides{
-  display:flex;
-  transition:transform .3s ease;
+.slider::-webkit-scrollbar{
+  display:none;
 }
 
 .slide{
   min-width:100%;
   height:420px;
+  scroll-snap-align:start;
   background:black;
-  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 .slide img{
-  width:100%;
-  height:100%;
+  max-width:100%;
+  max-height:100%;
   object-fit:contain;
-  background:black;
-
-  /* 🔥 חובה */
-  pointer-events:none;
   user-select:none;
   -webkit-user-drag:none;
 }
@@ -83,14 +81,12 @@ section{
 <section>
 <h2>העבודות שלנו</h2>
 
-<div class="slider" id="slider">
-  <div class="slides" id="slides">
-    <div class="slide"><img src="work1.jpg"></div>
-    <div class="slide"><img src="work2.jpg"></div>
-    <div class="slide"><img src="work3.jpg"></div>
-    <div class="slide"><img src="work4.jpg"></div>
-    <div class="slide"><img src="work5.jpg"></div>
-  </div>
+<div class="slider">
+  <div class="slide"><img src="work1.jpg"></div>
+  <div class="slide"><img src="work2.jpg"></div>
+  <div class="slide"><img src="work3.jpg"></div>
+  <div class="slide"><img src="work4.jpg"></div>
+  <div class="slide"><img src="work5.jpg"></div>
 </div>
 </section>
 
@@ -98,42 +94,6 @@ section{
 <h2>השירותים שלנו</h2>
 <p>עטיפת רכב • השחרת חלונות • PPF</p>
 </section>
-
-<script>
-const slider = document.getElementById("slider");
-const slides = document.getElementById("slides");
-const total = slides.children.length;
-
-let index = 0;
-let startX = 0;
-let dragging = false;
-
-function update(){
-  slides.style.transform = `translateX(-${index*100}%)`;
-}
-
-slider.addEventListener("touchstart", e=>{
-  dragging = true;
-  startX = e.touches[0].clientX;
-},{passive:false});
-
-slider.addEventListener("touchmove", e=>{
-  if(!dragging) return;
-  e.preventDefault(); // 🔥 זה מה שמבטל את “החבל”
-},{passive:false});
-
-slider.addEventListener("touchend", e=>{
-  if(!dragging) return;
-  const endX = e.changedTouches[0].clientX;
-  const diff = startX - endX;
-
-  if(diff > 40 && index < total-1) index++;
-  if(diff < -40 && index > 0) index--;
-
-  update();
-  dragging = false;
-});
-</script>
 
 </body>
 </html>
