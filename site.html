@@ -11,6 +11,7 @@
       font-family: Arial, sans-serif;
       background: #000;
       color: white;
+      overflow-x: hidden;
     }
 
     section {
@@ -18,8 +19,20 @@
       text-align: center;
     }
 
-    h2 {
+    h1, h2 {
       margin-bottom: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 18px 40px;
+      background: #dc2626;
+      color: white;
+      text-decoration: none;
+      font-size: 22px;
+      border-radius: 12px;
+      font-weight: bold;
     }
 
     /* ===== SLIDER ===== */
@@ -29,17 +42,19 @@
       overflow: hidden;
       border-radius: 16px;
       position: relative;
+      touch-action: pan-y; /* חשוב לאינסטגרם */
     }
 
     .slides {
       display: flex;
-      transition: transform 0.4s ease;
+      transition: transform 0.35s ease;
     }
 
     .slides img {
       width: 100%;
       flex-shrink: 0;
       border-radius: 16px;
+      user-select: none;
     }
 
     .dots {
@@ -64,39 +79,52 @@
 
 <body>
 
+<!-- HERO -->
+<section>
+  <h1>EBWRAPING</h1>
+  <p>עטיפות רכב • השחרת חלונות • PPF</p>
+  <a class="btn" href="https://wa.me/9725XXXXXXXX">קביעת תור</a>
+</section>
+
 <!-- GALLERY -->
 <section>
   <h2>העבודות שלנו</h2>
 
-<div class="slider">
-  <div class="slides" id="slides">
-    <img src="work1.jpg">
-    <img src="work2.jpg">
-    <img src="work3.jpg">
-    <img src="work4.jpg">
-    <img src="work5.jpg">
-    <img src="work6.jpg">
-    <img src="work7.jpg">
-    <img src="work8.jpg">
-    <img src="work9.jpg">
-    <img src="work10.jpg">
-    <img src="work11.jpg">
-    <img src="work12.jpg">
-    <img src="work13.jpg">
-    <img src="work14.jpg">
-    <img src="work15.jpg">
-    <img src="work16.jpg">
-    <img src="work17.jpg">
-    <img src="work18.jpg">
-    <img src="work19.jpg">
-    <img src="work20.jpg">
-    <img src="work21.jpg">
-    <img src="work22.jpg">
-    <img src="work23.jpg">
+  <div class="slider">
+    <div class="slides" id="slides">
+      <img src="work1.jpg">
+      <img src="work2.jpg">
+      <img src="work3.jpg">
+      <img src="work4.jpg">
+      <img src="work5.jpg">
+      <img src="work6.jpg">
+      <img src="work7.jpg">
+      <img src="work8.jpg">
+      <img src="work9.jpg">
+      <img src="work10.jpg">
+      <img src="work11.jpg">
+      <img src="work12.jpg">
+      <img src="work13.jpg">
+      <img src="work14.jpg">
+      <img src="work15.jpg">
+      <img src="work16.jpg">
+      <img src="work17.jpg">
+      <img src="work18.jpg">
+      <img src="work20.jpg">
+      <img src="work21.jpg">
+      <img src="work22.jpg">
+      <img src="work23.jpg">
+    </div>
   </div>
-</div>
 
   <div class="dots" id="dots"></div>
+</section>
+
+<!-- SERVICES -->
+<section>
+  <h2>השירותים שלנו</h2>
+  <p>עטיפת רכב • השחרת חלונות • PPF • עיצוב מיוחד</p>
+  <a class="btn" href="https://wa.me/9725XXXXXXXX">קבע תור</a>
 </section>
 
 <script>
@@ -108,7 +136,7 @@
   let startX = 0;
   let autoSlide;
 
-  // Create dots
+  // create dots
   for (let i = 0; i < images.length; i++) {
     const dot = document.createElement("div");
     dot.className = "dot" + (i === 0 ? " active" : "");
@@ -128,31 +156,31 @@
     updateSlider();
   }
 
-  function startAutoSlide() {
-    autoSlide = setInterval(nextSlide, 3000); // ⏱ 3 seconds
+  function startAuto() {
+    autoSlide = setInterval(nextSlide, 3500);
   }
 
-  function stopAutoSlide() {
+  function stopAuto() {
     clearInterval(autoSlide);
   }
 
-  // Touch events
   slides.addEventListener("touchstart", e => {
-    stopAutoSlide();
+    stopAuto();
     startX = e.touches[0].clientX;
-  });
+  }, { passive: true });
 
   slides.addEventListener("touchend", e => {
     const endX = e.changedTouches[0].clientX;
+    const diff = startX - endX;
 
-    if (startX - endX > 50 && index < images.length - 1) index++;
-    if (endX - startX > 50 && index > 0) index--;
+    if (diff > 30 && index < images.length - 1) index++;
+    if (diff < -30 && index > 0) index--;
 
     updateSlider();
-    startAutoSlide();
+    startAuto();
   });
 
-  startAutoSlide();
+  startAuto();
 </script>
 
 </body>
