@@ -57,19 +57,21 @@
       scroll-snap-align: center;
       border-radius: 18px;
       overflow: hidden;
+      background: #000;
       flex-shrink: 0;
     }
 
-   .slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center; /* זה התיקון */
-  display: block;
-  user-select: none;
-  -webkit-user-drag: none;
-   }
-
+    /* ✅ NO CROP – PERFECT FOR MIXED IMAGES */
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;     /* 🔥 זה התיקון החשוב */
+      object-position: center;
+      display: block;
+      user-select: none;
+      -webkit-user-drag: none;
+      background: #000;
+    }
 
     @media (max-width: 600px) {
       .slide {
