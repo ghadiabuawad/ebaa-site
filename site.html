@@ -50,10 +50,12 @@
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
-      padding: 20px 10px 40px;
       align-items: center;
 
-      direction: ltr; /* IMPORTANT */
+      /* 🔥 THIS IS IMPORTANT */
+      padding: 20px 50vw 40px; /* left & right space */
+
+      direction: ltr;
     }
 
     .coverflow::-webkit-scrollbar {
@@ -111,29 +113,14 @@
   <h2>העבודות שלנו</h2>
 
   <div class="coverflow">
-    <div class="card"><img src="work1.jpg" alt=""></div>
-    <div class="card"><img src="work2.jpg" alt=""></div>
-    <div class="card"><img src="work3.jpg" alt=""></div>
-    <div class="card"><img src="work4.jpg" alt=""></div>
-    <div class="card"><img src="work5.jpg" alt=""></div>
-    <div class="card"><img src="work6.jpg" alt=""></div>
-    <div class="card"><img src="work7.jpg" alt=""></div>
-    <div class="card"><img src="work8.jpg" alt=""></div>
-    <div class="card"><img src="work9.jpg" alt=""></div>
-    <div class="card"><img src="work10.jpg" alt=""></div>
-    <div class="card"><img src="work11.jpg" alt=""></div>
-    <div class="card"><img src="work12.jpg" alt=""></div>
-    <div class="card"><img src="work13.jpg" alt=""></div>
-    <div class="card"><img src="work14.jpg" alt=""></div>
-    <div class="card"><img src="work15.jpg" alt=""></div>
-    <div class="card"><img src="work16.jpg" alt=""></div>
-    <div class="card"><img src="work17.jpg" alt=""></div>
-    <div class="card"><img src="work18.jpg" alt=""></div>
-    <div class="card"><img src="work19.jpg" alt=""></div>
-    <div class="card"><img src="work20.jpg" alt=""></div>
-    <div class="card"><img src="work21.jpg" alt=""></div>
-    <div class="card"><img src="work22.jpg" alt=""></div>
-    <div class="card"><img src="work23.jpg" alt=""></div>
+    <div class="card"><img src="work1.jpg"></div>
+    <div class="card"><img src="work2.jpg"></div>
+    <div class="card"><img src="work3.jpg"></div>
+    <div class="card"><img src="work4.jpg"></div>
+    <div class="card"><img src="work5.jpg"></div>
+    <div class="card"><img src="work6.jpg"></div>
+    <div class="card"><img src="work7.jpg"></div>
+    <div class="card"><img src="work8.jpg"></div>
   </div>
 </section>
 
@@ -152,9 +139,7 @@
     const center = container.scrollLeft + container.offsetWidth / 2;
 
     cards.forEach(card => {
-      const cardCenter =
-        card.offsetLeft + card.offsetWidth / 2;
-
+      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
       if (Math.abs(center - cardCenter) < card.offsetWidth / 2) {
         card.classList.add('active');
       } else {
@@ -163,8 +148,18 @@
     });
   }
 
+  window.addEventListener('load', () => {
+    const firstCard = cards[0];
+    const scrollTo =
+      firstCard.offsetLeft -
+      container.offsetWidth / 2 +
+      firstCard.offsetWidth / 2;
+
+    container.scrollLeft = scrollTo;
+    updateActiveCard();
+  });
+
   container.addEventListener('scroll', updateActiveCard);
-  window.addEventListener('load', updateActiveCard);
 </script>
 
 </body>
