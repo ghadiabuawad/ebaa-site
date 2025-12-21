@@ -19,6 +19,22 @@
     text-align: center;
   }
 
+  h1, h2 {
+    margin-bottom: 20px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 18px 40px;
+    background: #dc2626;
+    color: white;
+    text-decoration: none;
+    font-size: 22px;
+    border-radius: 14px;
+    font-weight: bold;
+  }
+
+  /* ===== STACKED SLIDER ===== */
   .coverflow {
     position: relative;
     height: 420px;
@@ -73,39 +89,55 @@
     max-width: 90vw;
     max-height: 90vh;
     transform-origin: center;
-    transition: none; /* 🔥 IMPORTANT */
+    transition: none; /* IMPORTANT */
   }
 </style>
 </head>
 
 <body>
 
-<div class="coverflow" id="slider">
-  <!-- images -->
-  <div class="card"><img src="work1.jpg"></div>
-  <div class="card"><img src="work2.jpg"></div>
-  <div class="card"><img src="work3.jpg"></div>
-  <div class="card"><img src="work4.jpg"></div>
-  <div class="card"><img src="work5.jpg"></div>
-  <div class="card"><img src="work6.jpg"></div>
-  <div class="card"><img src="work7.jpg"></div>
-  <div class="card"><img src="work8.jpg"></div>
-  <div class="card"><img src="work9.jpg"></div>
-  <div class="card"><img src="work10.jpg"></div>
-  <div class="card"><img src="work11.jpg"></div>
-  <div class="card"><img src="work12.jpg"></div>
-  <div class="card"><img src="work13.jpg"></div>
-  <div class="card"><img src="work14.jpg"></div>
-  <div class="card"><img src="work15.jpg"></div>
-  <div class="card"><img src="work16.jpg"></div>
-  <div class="card"><img src="work17.jpg"></div>
-  <div class="card"><img src="work18.jpg"></div>
-  <div class="card"><img src="work19.jpg"></div>
-  <div class="card"><img src="work20.jpg"></div>
-  <div class="card"><img src="work21.jpg"></div>
-  <div class="card"><img src="work22.jpg"></div>
-  <div class="card"><img src="work23.jpg"></div>
-</div>
+<section>
+  <h1>EBWRAPING</h1>
+  <p>עטיפות רכב • השחרת חלונות • PPF</p>
+  <a class="btn" href="https://wa.me/9725XXXXXXXX">קביעת תור</a>
+</section>
+
+<section>
+  <h2>העבודות שלנו</h2>
+
+  <div class="coverflow" id="slider">
+    <!-- 23 images -->
+    <div class="card"><img src="work1.jpg"></div>
+    <div class="card"><img src="work2.jpg"></div>
+    <div class="card"><img src="work3.jpg"></div>
+    <div class="card"><img src="work4.jpg"></div>
+    <div class="card"><img src="work5.jpg"></div>
+    <div class="card"><img src="work6.jpg"></div>
+    <div class="card"><img src="work7.jpg"></div>
+    <div class="card"><img src="work8.jpg"></div>
+    <div class="card"><img src="work9.jpg"></div>
+    <div class="card"><img src="work10.jpg"></div>
+    <div class="card"><img src="work11.jpg"></div>
+    <div class="card"><img src="work12.jpg"></div>
+    <div class="card"><img src="work13.jpg"></div>
+    <div class="card"><img src="work14.jpg"></div>
+    <div class="card"><img src="work15.jpg"></div>
+    <div class="card"><img src="work16.jpg"></div>
+    <div class="card"><img src="work17.jpg"></div>
+    <div class="card"><img src="work18.jpg"></div>
+    <div class="card"><img src="work19.jpg"></div>
+    <div class="card"><img src="work20.jpg"></div>
+    <div class="card"><img src="work21.jpg"></div>
+    <div class="card"><img src="work22.jpg"></div>
+    <div class="card"><img src="work23.jpg"></div>
+  </div>
+</section>
+
+<section>
+  <h2>השירותים שלנו</h2>
+  <p>עטיפת רכב • השחרת חלונות • PPF • עיצוב מיוחד</p>
+  <a class="btn" href="https://wa.me/9725XXXXXXXX">קבע תור</a>
+</section>
 
 <div class="viewer" id="viewer">
   <img id="viewerImg">
@@ -128,7 +160,19 @@
   }
   update();
 
-  /* ===== VIEWER ZOOM (FIXED) ===== */
+  let swipeX = 0;
+  const slider = document.getElementById('slider');
+
+  slider.addEventListener('touchstart', e => swipeX = e.touches[0].clientX);
+  slider.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - swipeX;
+    if (dx < -50) index++;
+    if (dx > 50) index--;
+    index = get(index);
+    update();
+  });
+
+  /* ===== INSTAGRAM CORRECT ZOOM ===== */
   const viewer = document.getElementById('viewer');
   const img = document.getElementById('viewerImg');
 
@@ -171,16 +215,24 @@
       scale = Math.min(Math.max(startScale * (dist / startDist), 1), 3);
     }
 
-    if (e.touches.length === 1 && scale > 1) {
+    if (e.touches.length === 1) {
       posX = e.touches[0].clientX - startX;
       posY = e.touches[0].clientY - startY;
+
+      /* 🔥 EXIT ONLY WHEN SCALE IS NORMAL */
+      if (scale <= 1 && posY > 140) {
+        viewer.classList.remove('active');
+        return;
+      }
     }
 
-    img.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
+    img.style.transform =
+      `translate(${posX}px, ${posY}px) scale(${scale})`;
   });
 
   viewer.addEventListener('touchend', () => {
-    if (scale === 1) {
+    if (scale <= 1) {
+      scale = 1;
       posX = posY = 0;
       img.style.transform = 'translate(0,0) scale(1)';
     }
