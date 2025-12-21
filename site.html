@@ -51,11 +51,24 @@ h1, h2 { margin-bottom: 20px; }
   align-items: center;
 }
 
+.news-track {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  overflow: hidden;
+}
+
 .news-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 40px;
+  display: flex;
+  align-items: center;
+
   white-space: nowrap;
   font-size: 15px;
   font-weight: bold;
-  padding-left: 100%;
   will-change: transform;
 }
 
@@ -120,8 +133,13 @@ h1, h2 { margin-bottom: 20px; }
 
 <!-- NEWS TICKER -->
 <div class="news-ticker">
-  <div class="news-text" id="newsText">
-    🔴 מבצע השבוע • עטיפת רכב במחיר מיוחד • השחרת חלונות • PPF איכותי • קביעת תור עכשיו 🔴
+  <div class="news-track" id="newsTrack">
+    <div class="news-text" id="newsText1">
+      🔴 מבצע השבוע • עטיפת רכב במחיר מיוחד • השחרת חלונות • PPF איכותי • קביעת תור עכשיו 🔴
+    </div>
+    <div class="news-text" id="newsText2">
+      🔴 מבצע השבוע • עטיפת רכב במחיר מיוחד • השחרת חלונות • PPF איכותי • קביעת תור עכשיו 🔴
+    </div>
   </div>
 </div>
 
@@ -166,19 +184,42 @@ h1, h2 { margin-bottom: 20px; }
 </div>
 
 <script>
-/* ===== TICKER (JS LOOP — NEVER DISAPPEARS) ===== */
-const news = document.getElementById('newsText');
-let x = 0;
+/* ===== TICKER (TRUE LOOP, NEVER EMPTY) ===== */
+const t1 = document.getElementById('newsText1');
+const t2 = document.getElementById('newsText2');
+
+let x1 = 0;
+let x2 = 0;
+
+function initTicker() {
+  const w1 = t1.offsetWidth;
+  x1 = 0;
+  x2 = w1; // place 2nd immediately after 1st
+}
+
+window.addEventListener('load', () => {
+  initTicker();
+  requestAnimationFrame(moveTicker);
+});
+window.addEventListener('resize', initTicker);
 
 function moveTicker() {
-  x -= 0.5;
-  if (Math.abs(x) > news.scrollWidth) {
-    x = window.innerWidth;
-  }
-  news.style.transform = `translateX(${x}px)`;
+  const speed = 0.6;
+
+  const w1 = t1.offsetWidth;
+
+  x1 -= speed;
+  x2 -= speed;
+
+  // when one fully leaves, move it to the end of the other
+  if (x1 <= -w1) x1 = x2 + w1;
+  if (x2 <= -w1) x2 = x1 + w1;
+
+  t1.style.transform = `translateX(${x1}px)`;
+  t2.style.transform = `translateX(${x2}px)`;
+
   requestAnimationFrame(moveTicker);
 }
-moveTicker();
 
 /* ===== SLIDER ===== */
 const cards = document.querySelectorAll('.card');
@@ -208,47 +249,74 @@ slider.addEventListener('touchend', e => {
   update();
 });
 
-/* ===== VIEWER WITH EXIT ===== */
+/* ===== VIEWER WITH EXIT (MOBILE SAFE) ===== */
 const viewer = document.getElementById('viewer');
 const viewerImg = document.getElementById('viewerImg');
 let scale = 1;
 
 cards.forEach(card => {
-  card.onclick = () => {
+  card.addEventListener('click', () => {
     if (!card.classList.contains('active')) return;
     viewerImg.src = card.querySelector('img').src;
     scale = 1;
     viewerImg.style.transform = 'scale(1)';
     viewer.classList.add('active');
-  };
+  });
 });
 
-/* tap background to exit */
-viewer.addEventListener('click', e => {
-  if (e.target === viewer) viewer.classList.remove('active');
+/* close helper */
+function closeViewer() {
+  viewer.classList.remove('active');
+  scale = 1;
+  viewerImg.style.transform = 'scale(1)';
+}
+
+/* exit on tap black background (desktop + mobile) */
+viewer.addEventListener('click', (e) => {
+  if (e.target === viewer) closeViewer();
+});
+viewer.addEventListener('touchend', (e) => {
+  if (e.target === viewer) closeViewer();
 });
 
 /* pinch zoom + exit */
 let startDist = 0;
+let baseScale = 1;
+
 viewer.addEventListener('touchstart', e => {
+  if (!viewer.classList.contains('active')) return;
+
   if (e.touches.length === 2) {
+    e.preventDefault();
     startDist = Math.hypot(
       e.touches[0].clientX - e.touches[1].clientX,
       e.touches[0].clientY - e.touches[1].clientY
     );
+    baseScale = scale;
   }
-});
+}, { passive: false });
 
 viewer.addEventListener('touchmove', e => {
+  if (!viewer.classList.contains('active')) return;
+
   if (e.touches.length === 2) {
+    e.preventDefault();
     const dist = Math.hypot(
       e.touches[0].clientX - e.touches[1].clientX,
       e.touches[0].clientY - e.touches[1].clientY
     );
-    scale = Math.max(1, Math.min(3, dist / startDist));
+
+    scale = Math.max(1, Math.min(3, baseScale * (dist / startDist)));
     viewerImg.style.transform = `scale(${scale})`;
-    if (scale <= 1.02) viewer.classList.remove('active');
+
+    // if user zooms back to normal => exit
+    if (scale <= 1.01) closeViewer();
   }
+}, { passive: false });
+
+/* exit with ESC (desktop) */
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && viewer.classList.contains('active')) closeViewer();
 });
 </script>
 
