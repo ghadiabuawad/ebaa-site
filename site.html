@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <title>EBWRAPING</title>
@@ -23,10 +23,20 @@
     margin-bottom: 20px;
   }
 
-  /* ===== STACK SLIDER ===== */
-  .stack-slider {
+  .btn {
+    display: inline-block;
+    padding: 18px 40px;
+    background: #dc2626;
+    color: white;
+    text-decoration: none;
+    font-size: 22px;
+    border-radius: 14px;
+    font-weight: bold;
+  }
+
+  /* ===== EXACT STACK DESIGN ===== */
+  .coverflow {
     position: relative;
-    width: 100%;
     height: 420px;
     display: flex;
     justify-content: center;
@@ -34,66 +44,67 @@
     overflow: hidden;
   }
 
-  .slide {
+  .card {
     position: absolute;
     width: 280px;
     height: 380px;
     border-radius: 20px;
     overflow: hidden;
-    transition: transform 0.5s ease, opacity 0.5s ease;
+    background: #000;
+    transition: transform 0.45s ease, opacity 0.45s ease;
     opacity: 0;
   }
 
-  .slide img {
+  .card img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
   }
 
   /* CENTER */
-  .slide.active {
+  .active {
     transform: translateX(0) scale(1);
-    z-index: 5;
     opacity: 1;
+    z-index: 5;
   }
 
-  /* RIGHT SIDE */
-  .slide.next {
+  /* RIGHT */
+  .next {
     transform: translateX(160px) scale(0.9);
-    z-index: 4;
     opacity: 0.8;
+    z-index: 4;
   }
 
-  .slide.next2 {
+  .next2 {
     transform: translateX(300px) scale(0.8);
-    z-index: 3;
     opacity: 0.6;
+    z-index: 3;
   }
 
-  /* LEFT SIDE */
-  .slide.prev {
+  /* LEFT */
+  .prev {
     transform: translateX(-160px) scale(0.9);
-    z-index: 4;
     opacity: 0.8;
+    z-index: 4;
   }
 
-  .slide.prev2 {
+  .prev2 {
     transform: translateX(-300px) scale(0.8);
-    z-index: 3;
     opacity: 0.6;
+    z-index: 3;
   }
 
-  /* MOBILE */
   @media (max-width: 600px) {
-    .slide {
+    .card {
       width: 240px;
       height: 340px;
     }
 
-    .slide.next { transform: translateX(130px) scale(0.9); }
-    .slide.next2 { transform: translateX(240px) scale(0.8); }
-    .slide.prev { transform: translateX(-130px) scale(0.9); }
-    .slide.prev2 { transform: translateX(-240px) scale(0.8); }
+    .next { transform: translateX(130px) scale(0.9); }
+    .next2 { transform: translateX(240px) scale(0.8); }
+    .prev { transform: translateX(-130px) scale(0.9); }
+    .prev2 { transform: translateX(-240px) scale(0.8); }
   }
 </style>
 </head>
@@ -102,57 +113,76 @@
 
 <section>
   <h1>EBWRAPING</h1>
-  <p>Car Wrapping • Window Tint • PPF</p>
+  <p>עטיפות רכב • השחרת חלונות • PPF</p>
+  <a class="btn" href="https://wa.me/9725XXXXXXXX">קביעת תור</a>
 </section>
 
 <section>
-  <h2>Our Work</h2>
+  <h2>העבודות שלנו</h2>
 
-  <div class="stack-slider" id="slider">
-    <div class="slide"><img src="work1.jpg"></div>
-    <div class="slide"><img src="work2.jpg"></div>
-    <div class="slide"><img src="work3.jpg"></div>
-    <div class="slide"><img src="work4.jpg"></div>
-    <div class="slide"><img src="work5.jpg"></div>
-    <div class="slide"><img src="work6.jpg"></div>
+  <div class="coverflow" id="slider">
+    <div class="card"><img src="work1.jpg"></div>
+    <div class="card"><img src="work2.jpg"></div>
+    <div class="card"><img src="work3.jpg"></div>
+    <div class="card"><img src="work4.jpg"></div>
+    <div class="card"><img src="work5.jpg"></div>
+    <div class="card"><img src="work6.jpg"></div>
+    <div class="card"><img src="work7.jpg"></div>
+    <div class="card"><img src="work8.jpg"></div>
+    <div class="card"><img src="work9.jpg"></div>
+    <div class="card"><img src="work10.jpg"></div>
+    <div class="card"><img src="work11.jpg"></div>
+    <div class="card"><img src="work12.jpg"></div>
+    <div class="card"><img src="work13.jpg"></div>
+    <div class="card"><img src="work14.jpg"></div>
+    <div class="card"><img src="work15.jpg"></div>
+    <div class="card"><img src="work16.jpg"></div>
+    <div class="card"><img src="work17.jpg"></div>
+    <div class="card"><img src="work18.jpg"></div>
+    <div class="card"><img src="work19.jpg"></div>
+    <div class="card"><img src="work20.jpg"></div>
+    <div class="card"><img src="work21.jpg"></div>
+    <div class="card"><img src="work22.jpg"></div>
+    <div class="card"><img src="work23.jpg"></div>
   </div>
 </section>
 
+<section>
+  <h2>השירותים שלנו</h2>
+  <p>עטיפת רכב • השחרת חלונות • PPF • עיצוב מיוחד</p>
+  <a class="btn" href="https://wa.me/9725XXXXXXXX">קבע תור</a>
+</section>
+
 <script>
-  const slides = document.querySelectorAll('.slide');
-  let index = 0;
+  const cards = document.querySelectorAll('.card');
+  let index = 1; // so left side exists
 
-  function updateSlides() {
-    slides.forEach(slide => {
-      slide.className = 'slide';
-    });
+  function update() {
+    cards.forEach(c => c.className = 'card');
 
-    slides[index].classList.add('active');
-
-    if (slides[index + 1]) slides[index + 1].classList.add('next');
-    if (slides[index + 2]) slides[index + 2].classList.add('next2');
-
-    if (slides[index - 1]) slides[index - 1].classList.add('prev');
-    if (slides[index - 2]) slides[index - 2].classList.add('prev2');
+    if (cards[index]) cards[index].classList.add('active');
+    if (cards[index + 1]) cards[index + 1].classList.add('next');
+    if (cards[index + 2]) cards[index + 2].classList.add('next2');
+    if (cards[index - 1]) cards[index - 1].classList.add('prev');
+    if (cards[index - 2]) cards[index - 2].classList.add('prev2');
   }
 
-  updateSlides();
+  update();
 
   let startX = 0;
+  const slider = document.getElementById('slider');
 
-  document.getElementById('slider').addEventListener('touchstart', e => {
+  slider.addEventListener('touchstart', e => {
     startX = e.touches[0].clientX;
   });
 
-  document.getElementById('slider').addEventListener('touchend', e => {
-    let endX = e.changedTouches[0].clientX;
-    if (startX - endX > 50 && index < slides.length - 1) {
-      index++;
-    }
-    if (endX - startX > 50 && index > 0) {
-      index--;
-    }
-    updateSlides();
+  slider.addEventListener('touchend', e => {
+    const endX = e.changedTouches[0].clientX;
+
+    if (startX - endX > 50 && index < cards.length - 1) index++;
+    if (endX - startX > 50 && index > 0) index--;
+
+    update();
   });
 </script>
 
