@@ -68,7 +68,7 @@
     display: block;
   }
 
-  /* CENTER – CLEAR */
+  /* CENTER */
   .active {
     transform: translateX(0) scale(1);
     opacity: 1;
@@ -76,44 +76,28 @@
     filter: blur(0);
   }
 
-  /* NEAR RIGHT / LEFT – SOFT */
-  .next,
-  .prev {
+  /* NEAR SIDES */
+  .next, .prev {
     opacity: 0.8;
     z-index: 4;
     filter: blur(2px);
   }
 
-  .next {
-    transform: translateX(160px) scale(0.9);
-  }
+  .next { transform: translateX(160px) scale(0.9); }
+  .prev { transform: translateX(-160px) scale(0.9); }
 
-  .prev {
-    transform: translateX(-160px) scale(0.9);
-  }
-
-  /* FAR RIGHT / LEFT – MORE BLUR */
-  .next2,
-  .prev2 {
+  /* FAR SIDES */
+  .next2, .prev2 {
     opacity: 0.6;
     z-index: 3;
     filter: blur(6px);
   }
 
-  .next2 {
-    transform: translateX(300px) scale(0.8);
-  }
-
-  .prev2 {
-    transform: translateX(-300px) scale(0.8);
-  }
+  .next2 { transform: translateX(300px) scale(0.8); }
+  .prev2 { transform: translateX(-300px) scale(0.8); }
 
   @media (max-width: 600px) {
-    .card {
-      width: 240px;
-      height: 340px;
-    }
-
+    .card { width: 240px; height: 340px; }
     .next { transform: translateX(130px) scale(0.9); }
     .prev { transform: translateX(-130px) scale(0.9); }
     .next2 { transform: translateX(240px) scale(0.8); }
@@ -168,16 +152,21 @@
 
 <script>
   const cards = document.querySelectorAll('.card');
-  let index = 1;
+  const total = cards.length;
+  let index = 0;
+
+  function get(i) {
+    return (i + total) % total;
+  }
 
   function update() {
     cards.forEach(c => c.className = 'card');
 
-    if (cards[index]) cards[index].classList.add('active');
-    if (cards[index + 1]) cards[index + 1].classList.add('next');
-    if (cards[index + 2]) cards[index + 2].classList.add('next2');
-    if (cards[index - 1]) cards[index - 1].classList.add('prev');
-    if (cards[index - 2]) cards[index - 2].classList.add('prev2');
+    cards[get(index)].classList.add('active');
+    cards[get(index + 1)].classList.add('next');
+    cards[get(index + 2)].classList.add('next2');
+    cards[get(index - 1)].classList.add('prev');
+    cards[get(index - 2)].classList.add('prev2');
   }
 
   update();
@@ -192,9 +181,10 @@
   slider.addEventListener('touchend', e => {
     const endX = e.changedTouches[0].clientX;
 
-    if (startX - endX > 50 && index < cards.length - 1) index++;
-    if (endX - startX > 50 && index > 0) index--;
+    if (startX - endX > 50) index++;
+    if (endX - startX > 50) index--;
 
+    index = get(index);
     update();
   });
 </script>
