@@ -19,22 +19,6 @@
     text-align: center;
   }
 
-  h1, h2 {
-    margin-bottom: 20px;
-  }
-
-  .btn {
-    display: inline-block;
-    padding: 18px 40px;
-    background: #dc2626;
-    color: white;
-    text-decoration: none;
-    font-size: 22px;
-    border-radius: 14px;
-    font-weight: bold;
-  }
-
-  /* ===== STACKED SLIDER ===== */
   .coverflow {
     position: relative;
     height: 420px;
@@ -65,36 +49,17 @@
     -webkit-user-drag: none;
   }
 
-  .active {
-    transform: translateX(0) scale(1);
-    opacity: 1;
-    z-index: 5;
-    filter: blur(0);
-  }
-
-  .next, .prev {
-    opacity: 0.8;
-    z-index: 4;
-    filter: blur(2px);
-  }
-
-  .next { transform: translateX(160px) scale(0.9); }
-  .prev { transform: translateX(-160px) scale(0.9); }
-
-  .next2, .prev2 {
-    opacity: 0.6;
-    z-index: 3;
-    filter: blur(6px);
-  }
-
-  .next2 { transform: translateX(300px) scale(0.8); }
-  .prev2 { transform: translateX(-300px) scale(0.8); }
+  .active { transform: translateX(0) scale(1); opacity: 1; z-index: 5; filter: blur(0); }
+  .next { transform: translateX(160px) scale(0.9); opacity: .8; z-index: 4; filter: blur(2px); }
+  .prev { transform: translateX(-160px) scale(0.9); opacity: .8; z-index: 4; filter: blur(2px); }
+  .next2 { transform: translateX(300px) scale(0.8); opacity: .6; z-index: 3; filter: blur(6px); }
+  .prev2 { transform: translateX(-300px) scale(0.8); opacity: .6; z-index: 3; filter: blur(6px); }
 
   /* ===== VIEWER ===== */
   .viewer {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.95);
+    background: rgba(0,0,0,.95);
     display: none;
     justify-content: center;
     align-items: center;
@@ -102,64 +67,45 @@
     touch-action: none;
   }
 
-  .viewer.active {
-    display: flex;
-  }
+  .viewer.active { display: flex; }
 
   .viewer img {
     max-width: 90vw;
     max-height: 90vh;
     transform-origin: center;
-    transition: transform 0.15s ease;
-    cursor: grab;
+    transition: none; /* 🔥 IMPORTANT */
   }
 </style>
 </head>
 
 <body>
 
-<section>
-  <h1>EBWRAPING</h1>
-  <p>עטיפות רכב • השחרת חלונות • PPF</p>
-  <a class="btn" href="https://wa.me/9725XXXXXXXX">קביעת תור</a>
-</section>
-
-<section>
-  <h2>העבודות שלנו</h2>
-
-  <div class="coverflow" id="slider">
-    <!-- IMAGES -->
-    <div class="card"><img src="work1.jpg"></div>
-    <div class="card"><img src="work2.jpg"></div>
-    <div class="card"><img src="work3.jpg"></div>
-    <div class="card"><img src="work4.jpg"></div>
-    <div class="card"><img src="work5.jpg"></div>
-    <div class="card"><img src="work6.jpg"></div>
-    <div class="card"><img src="work7.jpg"></div>
-    <div class="card"><img src="work8.jpg"></div>
-    <div class="card"><img src="work9.jpg"></div>
-    <div class="card"><img src="work10.jpg"></div>
-    <div class="card"><img src="work11.jpg"></div>
-    <div class="card"><img src="work12.jpg"></div>
-    <div class="card"><img src="work13.jpg"></div>
-    <div class="card"><img src="work14.jpg"></div>
-    <div class="card"><img src="work15.jpg"></div>
-    <div class="card"><img src="work16.jpg"></div>
-    <div class="card"><img src="work17.jpg"></div>
-    <div class="card"><img src="work18.jpg"></div>
-    <div class="card"><img src="work19.jpg"></div>
-    <div class="card"><img src="work20.jpg"></div>
-    <div class="card"><img src="work21.jpg"></div>
-    <div class="card"><img src="work22.jpg"></div>
-    <div class="card"><img src="work23.jpg"></div>
-  </div>
-</section>
-
-<section>
-  <h2>השירותים שלנו</h2>
-  <p>עטיפת רכב • השחרת חלונות • PPF • עיצוב מיוחד</p>
-  <a class="btn" href="https://wa.me/9725XXXXXXXX">קבע תור</a>
-</section>
+<div class="coverflow" id="slider">
+  <!-- images -->
+  <div class="card"><img src="work1.jpg"></div>
+  <div class="card"><img src="work2.jpg"></div>
+  <div class="card"><img src="work3.jpg"></div>
+  <div class="card"><img src="work4.jpg"></div>
+  <div class="card"><img src="work5.jpg"></div>
+  <div class="card"><img src="work6.jpg"></div>
+  <div class="card"><img src="work7.jpg"></div>
+  <div class="card"><img src="work8.jpg"></div>
+  <div class="card"><img src="work9.jpg"></div>
+  <div class="card"><img src="work10.jpg"></div>
+  <div class="card"><img src="work11.jpg"></div>
+  <div class="card"><img src="work12.jpg"></div>
+  <div class="card"><img src="work13.jpg"></div>
+  <div class="card"><img src="work14.jpg"></div>
+  <div class="card"><img src="work15.jpg"></div>
+  <div class="card"><img src="work16.jpg"></div>
+  <div class="card"><img src="work17.jpg"></div>
+  <div class="card"><img src="work18.jpg"></div>
+  <div class="card"><img src="work19.jpg"></div>
+  <div class="card"><img src="work20.jpg"></div>
+  <div class="card"><img src="work21.jpg"></div>
+  <div class="card"><img src="work22.jpg"></div>
+  <div class="card"><img src="work23.jpg"></div>
+</div>
 
 <div class="viewer" id="viewer">
   <img id="viewerImg">
@@ -182,31 +128,20 @@
   }
   update();
 
-  let startX = 0;
-  slider.addEventListener('touchstart', e => startX = e.touches[0].clientX);
-  slider.addEventListener('touchend', e => {
-    const endX = e.changedTouches[0].clientX;
-    if (startX - endX > 50) index++;
-    if (endX - startX > 50) index--;
-    index = get(index);
-    update();
-  });
-
-  /* ===== INSTAGRAM ZOOM + SWIPE DOWN CLOSE ===== */
+  /* ===== VIEWER ZOOM (FIXED) ===== */
   const viewer = document.getElementById('viewer');
-  const viewerImg = document.getElementById('viewerImg');
+  const img = document.getElementById('viewerImg');
 
   let scale = 1, posX = 0, posY = 0;
   let startDist = 0, startScale = 1;
-  let startX2 = 0, startY2 = 0;
-  let lastTap = 0;
+  let startX = 0, startY = 0;
 
   cards.forEach(card => {
     card.onclick = () => {
       if (!card.classList.contains('active')) return;
-      viewerImg.src = card.querySelector('img').src;
+      img.src = card.querySelector('img').src;
       scale = 1; posX = posY = 0;
-      viewerImg.style.transform = 'translate(0,0) scale(1)';
+      img.style.transform = 'translate(0,0) scale(1)';
       viewer.classList.add('active');
     };
   });
@@ -219,18 +154,10 @@
       );
       startScale = scale;
     }
-
     if (e.touches.length === 1) {
-      startX2 = e.touches[0].clientX - posX;
-      startY2 = e.touches[0].clientY - posY;
+      startX = e.touches[0].clientX - posX;
+      startY = e.touches[0].clientY - posY;
     }
-
-    const now = Date.now();
-    if (now - lastTap < 300) {
-      scale = scale > 1 ? 1 : 2;
-      posX = posY = 0;
-    }
-    lastTap = now;
   });
 
   viewer.addEventListener('touchmove', e => {
@@ -244,18 +171,19 @@
       scale = Math.min(Math.max(startScale * (dist / startDist), 1), 3);
     }
 
-    if (e.touches.length === 1) {
-      posX = e.touches[0].clientX - startX2;
-      posY = e.touches[0].clientY - startY2;
-
-      if (scale === 1 && posY > 120) {
-        viewer.classList.remove('active');
-        return;
-      }
+    if (e.touches.length === 1 && scale > 1) {
+      posX = e.touches[0].clientX - startX;
+      posY = e.touches[0].clientY - startY;
     }
 
-    viewerImg.style.transform =
-      `translate(${posX}px, ${posY}px) scale(${scale})`;
+    img.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
+  });
+
+  viewer.addEventListener('touchend', () => {
+    if (scale === 1) {
+      posX = posY = 0;
+      img.style.transform = 'translate(0,0) scale(1)';
+    }
   });
 </script>
 
