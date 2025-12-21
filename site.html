@@ -52,12 +52,7 @@
     overflow: hidden;
     background: #000;
     cursor: pointer;
-
-    transition:
-      transform 0.45s ease,
-      opacity 0.45s ease,
-      filter 0.45s ease;
-
+    transition: transform 0.45s ease, opacity 0.45s ease, filter 0.45s ease;
     opacity: 0;
     filter: blur(8px);
   }
@@ -66,8 +61,8 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
     user-select: none;
+    -webkit-user-drag: none;
   }
 
   .active {
@@ -95,15 +90,7 @@
   .next2 { transform: translateX(300px) scale(0.8); }
   .prev2 { transform: translateX(-300px) scale(0.8); }
 
-  @media (max-width: 600px) {
-    .card { width: 240px; height: 340px; }
-    .next { transform: translateX(130px) scale(0.9); }
-    .prev { transform: translateX(-130px) scale(0.9); }
-    .next2 { transform: translateX(240px) scale(0.8); }
-    .prev2 { transform: translateX(-240px) scale(0.8); }
-  }
-
-  /* ===== FULLSCREEN ZOOM VIEW ===== */
+  /* ===== VIEWER ===== */
   .viewer {
     position: fixed;
     inset: 0;
@@ -122,17 +109,9 @@
   .viewer img {
     max-width: 90vw;
     max-height: 90vh;
-    transform: scale(1);
-    transition: transform 0.2s ease;
+    transform-origin: center;
+    transition: transform 0.15s ease;
     cursor: grab;
-  }
-
-  .close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 30px;
-    cursor: pointer;
   }
 </style>
 </head>
@@ -149,7 +128,7 @@
   <h2>העבודות שלנו</h2>
 
   <div class="coverflow" id="slider">
-    <!-- 23 images -->
+    <!-- IMAGES -->
     <div class="card"><img src="work1.jpg"></div>
     <div class="card"><img src="work2.jpg"></div>
     <div class="card"><img src="work3.jpg"></div>
@@ -182,9 +161,7 @@
   <a class="btn" href="https://wa.me/9725XXXXXXXX">קבע תור</a>
 </section>
 
-<!-- FULLSCREEN VIEWER -->
 <div class="viewer" id="viewer">
-  <span class="close" id="close">✕</span>
   <img id="viewerImg">
 </div>
 
@@ -193,7 +170,6 @@
   const cards = document.querySelectorAll('.card');
   const total = cards.length;
   let index = 0;
-
   const get = i => (i + total) % total;
 
   function update() {
@@ -216,31 +192,70 @@
     update();
   });
 
-  /* ===== FULLSCREEN ZOOM ===== */
+  /* ===== INSTAGRAM ZOOM + SWIPE DOWN CLOSE ===== */
   const viewer = document.getElementById('viewer');
   const viewerImg = document.getElementById('viewerImg');
-  const closeBtn = document.getElementById('close');
 
-  let scale = 1;
+  let scale = 1, posX = 0, posY = 0;
+  let startDist = 0, startScale = 1;
+  let startX2 = 0, startY2 = 0;
+  let lastTap = 0;
 
   cards.forEach(card => {
-    card.addEventListener('click', () => {
+    card.onclick = () => {
       if (!card.classList.contains('active')) return;
       viewerImg.src = card.querySelector('img').src;
-      scale = 1;
-      viewerImg.style.transform = `scale(${scale})`;
+      scale = 1; posX = posY = 0;
+      viewerImg.style.transform = 'translate(0,0) scale(1)';
       viewer.classList.add('active');
-    });
+    };
   });
 
-  closeBtn.onclick = () => viewer.classList.remove('active');
-  viewer.onclick = e => { if (e.target === viewer) viewer.classList.remove('active'); };
+  viewer.addEventListener('touchstart', e => {
+    if (e.touches.length === 2) {
+      startDist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      startScale = scale;
+    }
 
-  viewerImg.addEventListener('wheel', e => {
+    if (e.touches.length === 1) {
+      startX2 = e.touches[0].clientX - posX;
+      startY2 = e.touches[0].clientY - posY;
+    }
+
+    const now = Date.now();
+    if (now - lastTap < 300) {
+      scale = scale > 1 ? 1 : 2;
+      posX = posY = 0;
+    }
+    lastTap = now;
+  });
+
+  viewer.addEventListener('touchmove', e => {
     e.preventDefault();
-    scale += e.deltaY * -0.001;
-    scale = Math.min(Math.max(1, scale), 3);
-    viewerImg.style.transform = `scale(${scale})`;
+
+    if (e.touches.length === 2) {
+      const dist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      scale = Math.min(Math.max(startScale * (dist / startDist), 1), 3);
+    }
+
+    if (e.touches.length === 1) {
+      posX = e.touches[0].clientX - startX2;
+      posY = e.touches[0].clientY - startY2;
+
+      if (scale === 1 && posY > 120) {
+        viewer.classList.remove('active');
+        return;
+      }
+    }
+
+    viewerImg.style.transform =
+      `translate(${posX}px, ${posY}px) scale(${scale})`;
   });
 </script>
 
