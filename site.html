@@ -51,6 +51,7 @@
     border-radius: 20px;
     overflow: hidden;
     background: #000;
+    cursor: pointer;
 
     transition:
       transform 0.45s ease,
@@ -66,9 +67,9 @@
     height: 100%;
     object-fit: cover;
     display: block;
+    user-select: none;
   }
 
-  /* CENTER */
   .active {
     transform: translateX(0) scale(1);
     opacity: 1;
@@ -76,7 +77,6 @@
     filter: blur(0);
   }
 
-  /* NEAR SIDES */
   .next, .prev {
     opacity: 0.8;
     z-index: 4;
@@ -86,7 +86,6 @@
   .next { transform: translateX(160px) scale(0.9); }
   .prev { transform: translateX(-160px) scale(0.9); }
 
-  /* FAR SIDES */
   .next2, .prev2 {
     opacity: 0.6;
     z-index: 3;
@@ -103,6 +102,38 @@
     .next2 { transform: translateX(240px) scale(0.8); }
     .prev2 { transform: translateX(-240px) scale(0.8); }
   }
+
+  /* ===== FULLSCREEN ZOOM VIEW ===== */
+  .viewer {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.95);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    touch-action: none;
+  }
+
+  .viewer.active {
+    display: flex;
+  }
+
+  .viewer img {
+    max-width: 90vw;
+    max-height: 90vh;
+    transform: scale(1);
+    transition: transform 0.2s ease;
+    cursor: grab;
+  }
+
+  .close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 30px;
+    cursor: pointer;
+  }
 </style>
 </head>
 
@@ -118,6 +149,7 @@
   <h2>העבודות שלנו</h2>
 
   <div class="coverflow" id="slider">
+    <!-- 23 images -->
     <div class="card"><img src="work1.jpg"></div>
     <div class="card"><img src="work2.jpg"></div>
     <div class="card"><img src="work3.jpg"></div>
@@ -136,6 +168,7 @@
     <div class="card"><img src="work16.jpg"></div>
     <div class="card"><img src="work17.jpg"></div>
     <div class="card"><img src="work18.jpg"></div>
+    <div class="card"><img src="work19.jpg"></div>
     <div class="card"><img src="work20.jpg"></div>
     <div class="card"><img src="work21.jpg"></div>
     <div class="card"><img src="work22.jpg"></div>
@@ -149,42 +182,65 @@
   <a class="btn" href="https://wa.me/9725XXXXXXXX">קבע תור</a>
 </section>
 
+<!-- FULLSCREEN VIEWER -->
+<div class="viewer" id="viewer">
+  <span class="close" id="close">✕</span>
+  <img id="viewerImg">
+</div>
+
 <script>
+  /* ===== SLIDER LOOP ===== */
   const cards = document.querySelectorAll('.card');
   const total = cards.length;
   let index = 0;
 
-  function get(i) {
-    return (i + total) % total;
-  }
+  const get = i => (i + total) % total;
 
   function update() {
     cards.forEach(c => c.className = 'card');
-
     cards[get(index)].classList.add('active');
-    cards[get(index + 1)].classList.add('next');
-    cards[get(index + 2)].classList.add('next2');
-    cards[get(index - 1)].classList.add('prev');
-    cards[get(index - 2)].classList.add('prev2');
+    cards[get(index+1)].classList.add('next');
+    cards[get(index+2)].classList.add('next2');
+    cards[get(index-1)].classList.add('prev');
+    cards[get(index-2)].classList.add('prev2');
   }
-
   update();
 
   let startX = 0;
-  const slider = document.getElementById('slider');
-
-  slider.addEventListener('touchstart', e => {
-    startX = e.touches[0].clientX;
-  });
-
+  slider.addEventListener('touchstart', e => startX = e.touches[0].clientX);
   slider.addEventListener('touchend', e => {
     const endX = e.changedTouches[0].clientX;
-
     if (startX - endX > 50) index++;
     if (endX - startX > 50) index--;
-
     index = get(index);
     update();
+  });
+
+  /* ===== FULLSCREEN ZOOM ===== */
+  const viewer = document.getElementById('viewer');
+  const viewerImg = document.getElementById('viewerImg');
+  const closeBtn = document.getElementById('close');
+
+  let scale = 1;
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      if (!card.classList.contains('active')) return;
+      viewerImg.src = card.querySelector('img').src;
+      scale = 1;
+      viewerImg.style.transform = `scale(${scale})`;
+      viewer.classList.add('active');
+    });
+  });
+
+  closeBtn.onclick = () => viewer.classList.remove('active');
+  viewer.onclick = e => { if (e.target === viewer) viewer.classList.remove('active'); };
+
+  viewerImg.addEventListener('wheel', e => {
+    e.preventDefault();
+    scale += e.deltaY * -0.001;
+    scale = Math.min(Math.max(1, scale), 3);
+    viewerImg.style.transform = `scale(${scale})`;
   });
 </script>
 
