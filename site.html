@@ -34,7 +34,7 @@
     font-weight: bold;
   }
 
-  /* ===== EXACT STACK DESIGN ===== */
+  /* ===== STACKED SLIDER ===== */
   .coverflow {
     position: relative;
     height: 420px;
@@ -51,8 +51,14 @@
     border-radius: 20px;
     overflow: hidden;
     background: #000;
-    transition: transform 0.45s ease, opacity 0.45s ease;
+
+    transition:
+      transform 0.45s ease,
+      opacity 0.45s ease,
+      filter 0.45s ease;
+
     opacity: 0;
+    filter: blur(8px);
   }
 
   .card img {
@@ -62,37 +68,44 @@
     display: block;
   }
 
-  /* CENTER */
+  /* CENTER – CLEAR */
   .active {
     transform: translateX(0) scale(1);
     opacity: 1;
     z-index: 5;
+    filter: blur(0);
   }
 
-  /* RIGHT */
-  .next {
-    transform: translateX(160px) scale(0.9);
+  /* NEAR RIGHT / LEFT – SOFT */
+  .next,
+  .prev {
     opacity: 0.8;
     z-index: 4;
+    filter: blur(2px);
+  }
+
+  .next {
+    transform: translateX(160px) scale(0.9);
+  }
+
+  .prev {
+    transform: translateX(-160px) scale(0.9);
+  }
+
+  /* FAR RIGHT / LEFT – MORE BLUR */
+  .next2,
+  .prev2 {
+    opacity: 0.6;
+    z-index: 3;
+    filter: blur(6px);
   }
 
   .next2 {
     transform: translateX(300px) scale(0.8);
-    opacity: 0.6;
-    z-index: 3;
-  }
-
-  /* LEFT */
-  .prev {
-    transform: translateX(-160px) scale(0.9);
-    opacity: 0.8;
-    z-index: 4;
   }
 
   .prev2 {
     transform: translateX(-300px) scale(0.8);
-    opacity: 0.6;
-    z-index: 3;
   }
 
   @media (max-width: 600px) {
@@ -102,8 +115,8 @@
     }
 
     .next { transform: translateX(130px) scale(0.9); }
-    .next2 { transform: translateX(240px) scale(0.8); }
     .prev { transform: translateX(-130px) scale(0.9); }
+    .next2 { transform: translateX(240px) scale(0.8); }
     .prev2 { transform: translateX(-240px) scale(0.8); }
   }
 </style>
@@ -139,6 +152,7 @@
     <div class="card"><img src="work16.jpg"></div>
     <div class="card"><img src="work17.jpg"></div>
     <div class="card"><img src="work18.jpg"></div>
+    <div class="card"><img src="work19.jpg"></div>
     <div class="card"><img src="work20.jpg"></div>
     <div class="card"><img src="work21.jpg"></div>
     <div class="card"><img src="work22.jpg"></div>
@@ -154,7 +168,7 @@
 
 <script>
   const cards = document.querySelectorAll('.card');
-  let index = 1; // so left side exists
+  let index = 1;
 
   function update() {
     cards.forEach(c => c.className = 'card');
