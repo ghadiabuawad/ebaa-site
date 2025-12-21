@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<html lang="he">
+<html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <title>EBWRAPING</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background: #000;
-      color: white;
-      direction: rtl;
+      color: #fff;
       overflow-x: hidden;
     }
 
@@ -21,6 +25,11 @@
 
     h1, h2 {
       margin-bottom: 20px;
+    }
+
+    p {
+      opacity: 0.9;
+      margin-bottom: 30px;
     }
 
     .btn {
@@ -34,7 +43,7 @@
       font-weight: bold;
     }
 
-    /* ===== COVERFLOW SLIDER ===== */
+    /* ===== COVERFLOW ===== */
     .coverflow {
       display: flex;
       gap: 16px;
@@ -44,7 +53,7 @@
       padding: 20px 10px 40px;
       align-items: center;
 
-      direction: ltr; /* 🔥 חובה לאינסטגרם */
+      direction: ltr; /* IMPORTANT */
     }
 
     .coverflow::-webkit-scrollbar {
@@ -60,7 +69,15 @@
       border-radius: 20px;
       overflow: hidden;
       background: #000;
-      transition: transform 0.3s ease, opacity 0.3s ease;
+
+      transition: transform 0.4s ease, opacity 0.4s ease;
+      opacity: 0.45;
+      transform: scale(0.85);
+    }
+
+    .card.active {
+      opacity: 1;
+      transform: scale(1);
     }
 
     .card img {
@@ -70,12 +87,6 @@
       display: block;
       user-select: none;
       -webkit-user-drag: none;
-    }
-
-    /* side cards look smaller */
-    .card:not(:first-child) {
-      opacity: 0.7;
-      transform: scale(0.9);
     }
 
     @media (max-width: 600px) {
@@ -100,28 +111,29 @@
   <h2>העבודות שלנו</h2>
 
   <div class="coverflow">
-    <div class="card"><img src="work1.jpg"></div>
-    <div class="card"><img src="work2.jpg"></div>
-    <div class="card"><img src="work3.jpg"></div>
-    <div class="card"><img src="work4.jpg"></div>
-    <div class="card"><img src="work5.jpg"></div>
-    <div class="card"><img src="work6.jpg"></div>
-    <div class="card"><img src="work7.jpg"></div>
-    <div class="card"><img src="work8.jpg"></div>
-    <div class="card"><img src="work9.jpg"></div>
-    <div class="card"><img src="work10.jpg"></div>
-    <div class="card"><img src="work11.jpg"></div>
-    <div class="card"><img src="work12.jpg"></div>
-    <div class="card"><img src="work13.jpg"></div>
-    <div class="card"><img src="work14.jpg"></div>
-    <div class="card"><img src="work15.jpg"></div>
-    <div class="card"><img src="work16.jpg"></div>
-    <div class="card"><img src="work17.jpg"></div>
-    <div class="card"><img src="work18.jpg"></div>
-    <div class="card"><img src="work20.jpg"></div>
-    <div class="card"><img src="work21.jpg"></div>
-    <div class="card"><img src="work22.jpg"></div>
-    <div class="card"><img src="work23.jpg"></div>
+    <div class="card"><img src="work1.jpg" alt=""></div>
+    <div class="card"><img src="work2.jpg" alt=""></div>
+    <div class="card"><img src="work3.jpg" alt=""></div>
+    <div class="card"><img src="work4.jpg" alt=""></div>
+    <div class="card"><img src="work5.jpg" alt=""></div>
+    <div class="card"><img src="work6.jpg" alt=""></div>
+    <div class="card"><img src="work7.jpg" alt=""></div>
+    <div class="card"><img src="work8.jpg" alt=""></div>
+    <div class="card"><img src="work9.jpg" alt=""></div>
+    <div class="card"><img src="work10.jpg" alt=""></div>
+    <div class="card"><img src="work11.jpg" alt=""></div>
+    <div class="card"><img src="work12.jpg" alt=""></div>
+    <div class="card"><img src="work13.jpg" alt=""></div>
+    <div class="card"><img src="work14.jpg" alt=""></div>
+    <div class="card"><img src="work15.jpg" alt=""></div>
+    <div class="card"><img src="work16.jpg" alt=""></div>
+    <div class="card"><img src="work17.jpg" alt=""></div>
+    <div class="card"><img src="work18.jpg" alt=""></div>
+    <div class="card"><img src="work19.jpg" alt=""></div>
+    <div class="card"><img src="work20.jpg" alt=""></div>
+    <div class="card"><img src="work21.jpg" alt=""></div>
+    <div class="card"><img src="work22.jpg" alt=""></div>
+    <div class="card"><img src="work23.jpg" alt=""></div>
   </div>
 </section>
 
@@ -131,6 +143,29 @@
   <p>עטיפת רכב • השחרת חלונות • PPF • עיצוב מיוחד</p>
   <a class="btn" href="https://wa.me/9725XXXXXXXX">קבע תור</a>
 </section>
+
+<script>
+  const container = document.querySelector('.coverflow');
+  const cards = document.querySelectorAll('.card');
+
+  function updateActiveCard() {
+    const center = container.scrollLeft + container.offsetWidth / 2;
+
+    cards.forEach(card => {
+      const cardCenter =
+        card.offsetLeft + card.offsetWidth / 2;
+
+      if (Math.abs(center - cardCenter) < card.offsetWidth / 2) {
+        card.classList.add('active');
+      } else {
+        card.classList.remove('active');
+      }
+    });
+  }
+
+  container.addEventListener('scroll', updateActiveCard);
+  window.addEventListener('load', updateActiveCard);
+</script>
 
 </body>
 </html>
