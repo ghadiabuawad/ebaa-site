@@ -11,8 +11,8 @@
       font-family: Arial, sans-serif;
       background: #000;
       color: white;
-      overflow-x: hidden;
       direction: rtl;
+      overflow-x: hidden;
     }
 
     section {
@@ -36,16 +36,17 @@
       font-weight: bold;
     }
 
-    /* ===== INSTAGRAM STYLE CAROUSEL ===== */
+    /* ===== BOOK / INSTAGRAM CAROUSEL ===== */
     .carousel {
       display: flex;
-      gap: 12px;
+      gap: 14px;
       overflow-x: auto;
-      padding: 10px 12px 20px;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
+      padding: 10px 0;
 
-      direction: ltr; /* חשוב */
+      /* IMPORTANT */
+      direction: ltr;
     }
 
     .carousel::-webkit-scrollbar {
@@ -53,13 +54,13 @@
     }
 
     .card {
-      flex: 0 0 88%;
-      max-width: 88%;
-      height: 380px;
+      flex: 0 0 85%;
+      max-width: 85%;
+      height: 420px;
+      scroll-snap-align: center;
       border-radius: 18px;
       overflow: hidden;
       background: #000;
-      scroll-snap-align: center;
     }
 
     .card img {
@@ -71,9 +72,10 @@
       -webkit-user-drag: none;
     }
 
+    /* PHONE FIX */
     @media (max-width: 600px) {
       .card {
-        height: 340px;
+        height: 360px;
       }
     }
   </style>
@@ -88,7 +90,7 @@
   <a class="btn" href="https://wa.me/9725XXXXXXXX">קביעת תור</a>
 </section>
 
-<!-- GALLERY -->
+<!-- WORKS -->
 <section>
   <h2>העבודות שלנו</h2>
 
