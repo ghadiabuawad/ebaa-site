@@ -19,14 +19,12 @@ section {
   text-align: center;
 }
 
-/* push content below ticker */
+/* space for ticker */
 section:first-of-type {
   margin-top: 40px;
 }
 
-h1, h2 {
-  margin-bottom: 20px;
-}
+h1, h2 { margin-bottom: 20px; }
 
 .btn {
   display: inline-block;
@@ -39,7 +37,7 @@ h1, h2 {
   font-weight: bold;
 }
 
-/* ===== NEWS TICKER (NO GAPS EVER) ===== */
+/* ===== JS-DRIVEN NEWS TICKER ===== */
 .news-ticker {
   position: fixed;
   top: 0;
@@ -48,34 +46,23 @@ h1, h2 {
   height: 40px;
   background: #dc2626;
   overflow: hidden;
-  z-index: 5;
+  z-index: 10;
   display: flex;
   align-items: center;
 }
 
-.news-wrapper {
-  display: flex;
-  width: max-content;
-  animation: tickerMove 18s linear infinite;
-}
-
-.news-inner {
+.news-text {
   white-space: nowrap;
-  padding: 0 60px;
   font-size: 15px;
   font-weight: bold;
-  color: white;
-}
-
-@keyframes tickerMove {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  padding-left: 100%;
+  will-change: transform;
 }
 
 /* ===== SLIDER ===== */
 .coverflow {
   position: relative;
-  z-index: 10;
+  z-index: 20;
   height: 420px;
   display: flex;
   justify-content: center;
@@ -90,9 +77,9 @@ h1, h2 {
   border-radius: 20px;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.45s ease, opacity 0.45s ease, filter 0.45s ease;
   opacity: 0;
   filter: blur(8px);
+  transition: transform 0.45s ease, opacity 0.45s ease, filter 0.45s ease;
 }
 
 .card img {
@@ -101,7 +88,7 @@ h1, h2 {
   object-fit: cover;
 }
 
-.active { transform: scale(1); opacity: 1; z-index: 5; filter: blur(0); }
+.active { transform: scale(1); opacity: 1; filter: blur(0); z-index: 5; }
 .next { transform: translateX(160px) scale(.9); opacity: .8; }
 .prev { transform: translateX(-160px) scale(.9); opacity: .8; }
 .next2 { transform: translateX(300px) scale(.8); opacity: .6; }
@@ -116,17 +103,15 @@ h1, h2 {
   justify-content: center;
   align-items: center;
   z-index: 9999;
+  touch-action: none;
 }
 
-.viewer.active {
-  display: flex;
-}
+.viewer.active { display: flex; }
 
 .viewer img {
   max-width: 90vw;
   max-height: 90vh;
-  transform: scale(1);
-  transition: transform 0.15s ease;
+  transform-origin: center center;
 }
 </style>
 </head>
@@ -135,13 +120,8 @@ h1, h2 {
 
 <!-- NEWS TICKER -->
 <div class="news-ticker">
-  <div class="news-wrapper">
-    <div class="news-inner">
-      🔴 מבצע השבוע • עטיפת רכב במחיר מיוחד • השחרת חלונות • PPF איכותי • קביעת תור עכשיו 🔴
-    </div>
-    <div class="news-inner">
-      🔴 מבצע השבוע • עטיפת רכב במחיר מיוחד • השחרת חלונות • PPF איכותי • קביעת תור עכשיו 🔴
-    </div>
+  <div class="news-text" id="newsText">
+    🔴 מבצע השבוע • עטיפת רכב במחיר מיוחד • השחרת חלונות • PPF איכותי • קביעת תור עכשיו 🔴
   </div>
 </div>
 
@@ -153,8 +133,8 @@ h1, h2 {
 
 <section>
   <h2>העבודות שלנו</h2>
-
   <div class="coverflow" id="slider">
+    <!-- 23 images -->
     <div class="card"><img src="work1.jpg"></div>
     <div class="card"><img src="work2.jpg"></div>
     <div class="card"><img src="work3.jpg"></div>
@@ -181,17 +161,25 @@ h1, h2 {
   </div>
 </section>
 
-<section>
-  <h2>השירותים שלנו</h2>
-  <p>עטיפת רכב • השחרת חלונות • PPF • עיצוב מיוחד</p>
-  <a class="btn" href="https://wa.me/9725XXXXXXXX">קבע תור</a>
-</section>
-
 <div class="viewer" id="viewer">
   <img id="viewerImg">
 </div>
 
 <script>
+/* ===== TICKER (JS LOOP — NEVER DISAPPEARS) ===== */
+const news = document.getElementById('newsText');
+let x = 0;
+
+function moveTicker() {
+  x -= 0.5;
+  if (Math.abs(x) > news.scrollWidth) {
+    x = window.innerWidth;
+  }
+  news.style.transform = `translateX(${x}px)`;
+  requestAnimationFrame(moveTicker);
+}
+moveTicker();
+
 /* ===== SLIDER ===== */
 const cards = document.querySelectorAll('.card');
 let index = 0;
@@ -220,13 +208,7 @@ slider.addEventListener('touchend', e => {
   update();
 });
 
-/* auto swipe */
-setInterval(() => {
-  index = get(index + 1);
-  update();
-}, 2000);
-
-/* ===== VIEWER ===== */
+/* ===== VIEWER WITH EXIT ===== */
 const viewer = document.getElementById('viewer');
 const viewerImg = document.getElementById('viewerImg');
 let scale = 1;
@@ -241,18 +223,32 @@ cards.forEach(card => {
   };
 });
 
-/* zoom + exit */
-viewerImg.addEventListener('wheel', e => {
-  e.preventDefault();
-  scale += e.deltaY * -0.001;
-  scale = Math.min(Math.max(scale, 1), 3);
-  viewerImg.style.transform = `scale(${scale})`;
-  if (scale === 1) viewer.classList.remove('active');
-}, { passive: false });
-
 /* tap background to exit */
 viewer.addEventListener('click', e => {
   if (e.target === viewer) viewer.classList.remove('active');
+});
+
+/* pinch zoom + exit */
+let startDist = 0;
+viewer.addEventListener('touchstart', e => {
+  if (e.touches.length === 2) {
+    startDist = Math.hypot(
+      e.touches[0].clientX - e.touches[1].clientX,
+      e.touches[0].clientY - e.touches[1].clientY
+    );
+  }
+});
+
+viewer.addEventListener('touchmove', e => {
+  if (e.touches.length === 2) {
+    const dist = Math.hypot(
+      e.touches[0].clientX - e.touches[1].clientX,
+      e.touches[0].clientY - e.touches[1].clientY
+    );
+    scale = Math.max(1, Math.min(3, dist / startDist));
+    viewerImg.style.transform = `scale(${scale})`;
+    if (scale <= 1.02) viewer.classList.remove('active');
+  }
 });
 </script>
 
