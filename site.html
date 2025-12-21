@@ -306,6 +306,63 @@
       applyTransform();
     }
   });
+    /* ===== AUTO SWIPE ===== */
+let autoSwipeTimer = null;
+let resumeTimer = null;
+const AUTO_DELAY = 2500;   // time between slides
+const RESUME_DELAY = 3000; // wait after user stops
+
+function startAutoSwipe() {
+  if (autoSwipeTimer) return;
+  autoSwipeTimer = setInterval(() => {
+    // don't auto-swipe if zoom viewer is open
+    if (viewer.classList.contains('active')) return;
+
+    index = get(index + 1);
+    update();
+  }, AUTO_DELAY);
+}
+
+function stopAutoSwipe() {
+  if (autoSwipeTimer) {
+    clearInterval(autoSwipeTimer);
+    autoSwipeTimer = null;
+  }
+}
+
+function resumeAutoSwipeLater() {
+  stopAutoSwipe();
+  if (resumeTimer) clearTimeout(resumeTimer);
+
+  resumeTimer = setTimeout(() => {
+    startAutoSwipe();
+  }, RESUME_DELAY);
+}
+
+/* start auto swipe on load */
+startAutoSwipe();
+
+/* pause when user touches slider */
+slider.addEventListener('touchstart', () => {
+  stopAutoSwipe();
+});
+
+/* resume after user finishes interaction */
+slider.addEventListener('touchend', () => {
+  resumeAutoSwipeLater();
+});
+
+/* pause auto swipe when opening viewer */
+viewer.addEventListener('touchstart', () => {
+  stopAutoSwipe();
+});
+
+/* resume after closing viewer */
+viewer.addEventListener('touchend', () => {
+  resumeAutoSwipeLater();
+});
+
+   
 </script>
 
 </body>
