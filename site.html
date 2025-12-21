@@ -1,147 +1,136 @@
 <!DOCTYPE html>
 <html lang="he">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EBWRAPING</title>
+  <meta charset="UTF-8">
+  <title>EBWRAPING</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: white;
+      direction: rtl;
+      overflow-x: hidden;
+    }
 
-<style>
-body{
-  margin:0;
-  background:#000;
-  color:#fff;
-  font-family:Arial,sans-serif;
-  direction:rtl;
-}
+    section {
+      padding: 60px 20px;
+      text-align: center;
+    }
 
-/* sections */
-section{
-  padding:60px 20px;
-  text-align:center;
-}
+    h1, h2 {
+      margin-bottom: 20px;
+    }
 
-h1,h2{margin-bottom:20px;}
+    .btn {
+      display: inline-block;
+      padding: 18px 40px;
+      background: #dc2626;
+      color: white;
+      text-decoration: none;
+      font-size: 22px;
+      border-radius: 14px;
+      font-weight: bold;
+    }
 
-.btn{
-  background:#dc2626;
-  color:#fff;
-  padding:18px 40px;
-  border-radius:14px;
-  text-decoration:none;
-  font-size:22px;
-  display:inline-block;
-}
+    /* ===== COVERFLOW SLIDER ===== */
+    .coverflow {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding: 20px 10px 40px;
+      align-items: center;
 
-/* ===== BOOK STYLE CAROUSEL ===== */
-.carousel{
-  position:relative;
-  overflow:hidden;
-  width:100%;
-  max-width:420px;
-  margin:0 auto;
-}
+      direction: ltr; /* 🔥 חובה לאינסטגרם */
+    }
 
-.track{
-  display:flex;
-  gap:16px;
-  padding:0 20%;
-  overflow-x:auto;
-  scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;
-}
+    .coverflow::-webkit-scrollbar {
+      display: none;
+    }
 
-.track::-webkit-scrollbar{display:none;}
+    .card {
+      scroll-snap-align: center;
+      flex-shrink: 0;
+      width: 70%;
+      max-width: 340px;
+      height: 420px;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #000;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
 
-.slide{
-  scroll-snap-align:center;
-  flex:0 0 80%;
-  height:380px;
-  border-radius:18px;
-  overflow:hidden;
-  background:#000;
-  transition:transform .25s ease, opacity .25s ease;
-}
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
 
-.slide img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-  user-select:none;
-  -webkit-user-drag:none;
-}
+    /* side cards look smaller */
+    .card:not(:first-child) {
+      opacity: 0.7;
+      transform: scale(0.9);
+    }
 
-/* make side images look smaller */
-.slide{
-  opacity:.6;
-  transform:scale(.9);
-}
-
-.slide:has(+ .slide){
-  /* nothing – Safari safe */
-}
-
-.track .slide.active{
-  opacity:1;
-  transform:scale(1);
-}
-
-@media(max-width:600px){
-  .slide{height:340px;}
-}
-</style>
+    @media (max-width: 600px) {
+      .card {
+        height: 360px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
+<!-- HERO -->
 <section>
   <h1>EBWRAPING</h1>
   <p>עטיפות רכב • השחרת חלונות • PPF</p>
   <a class="btn" href="https://wa.me/9725XXXXXXXX">קביעת תור</a>
 </section>
 
+<!-- WORKS -->
 <section>
   <h2>העבודות שלנו</h2>
 
-  <div class="carousel">
-    <div class="track" id="track">
-      <div class="slide"><img src="work1.jpg"></div>
-      <div class="slide"><img src="work2.jpg"></div>
-      <div class="slide"><img src="work3.jpg"></div>
-      <div class="slide"><img src="work4.jpg"></div>
-      <div class="slide"><img src="work5.jpg"></div>
-      <div class="slide"><img src="work6.jpg"></div>
-      <div class="slide"><img src="work7.jpg"></div>
-      <div class="slide"><img src="work8.jpg"></div>
-      <div class="slide"><img src="work9.jpg"></div>
-      <div class="slide"><img src="work10.jpg"></div>
-    </div>
+  <div class="coverflow">
+    <div class="card"><img src="work1.jpg"></div>
+    <div class="card"><img src="work2.jpg"></div>
+    <div class="card"><img src="work3.jpg"></div>
+    <div class="card"><img src="work4.jpg"></div>
+    <div class="card"><img src="work5.jpg"></div>
+    <div class="card"><img src="work6.jpg"></div>
+    <div class="card"><img src="work7.jpg"></div>
+    <div class="card"><img src="work8.jpg"></div>
+    <div class="card"><img src="work9.jpg"></div>
+    <div class="card"><img src="work10.jpg"></div>
+    <div class="card"><img src="work11.jpg"></div>
+    <div class="card"><img src="work12.jpg"></div>
+    <div class="card"><img src="work13.jpg"></div>
+    <div class="card"><img src="work14.jpg"></div>
+    <div class="card"><img src="work15.jpg"></div>
+    <div class="card"><img src="work16.jpg"></div>
+    <div class="card"><img src="work17.jpg"></div>
+    <div class="card"><img src="work18.jpg"></div>
+    <div class="card"><img src="work20.jpg"></div>
+    <div class="card"><img src="work21.jpg"></div>
+    <div class="card"><img src="work22.jpg"></div>
+    <div class="card"><img src="work23.jpg"></div>
   </div>
 </section>
 
+<!-- SERVICES -->
 <section>
   <h2>השירותים שלנו</h2>
-  <p>עטיפת רכב • השחרת חלונות • PPF</p>
+  <p>עטיפת רכב • השחרת חלונות • PPF • עיצוב מיוחד</p>
+  <a class="btn" href="https://wa.me/9725XXXXXXXX">קבע תור</a>
 </section>
-
-<script>
-const track = document.getElementById('track');
-const slides = [...document.querySelectorAll('.slide')];
-
-function updateActive(){
-  const center = track.scrollLeft + track.offsetWidth/2;
-  slides.forEach(slide=>{
-    const box = slide.offsetLeft + slide.offsetWidth/2;
-    slide.classList.toggle('active', Math.abs(center-box)<slide.offsetWidth/2);
-  });
-}
-
-track.addEventListener('scroll', updateActive);
-window.addEventListener('load', ()=> {
-  track.scrollLeft = slides[0].offsetLeft - 20;
-  updateActive();
-});
-</script>
 
 </body>
 </html>
