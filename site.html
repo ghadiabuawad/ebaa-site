@@ -1,167 +1,159 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>EBWRAPING</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<title>EBWRAPING</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <style>
-    * {
-      box-sizing: border-box;
+<style>
+  body {
+    margin: 0;
+    background: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+  }
+
+  section {
+    padding: 60px 20px;
+    text-align: center;
+  }
+
+  h1, h2 {
+    margin-bottom: 20px;
+  }
+
+  /* ===== STACK SLIDER ===== */
+  .stack-slider {
+    position: relative;
+    width: 100%;
+    height: 420px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .slide {
+    position: absolute;
+    width: 280px;
+    height: 380px;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    opacity: 0;
+  }
+
+  .slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* CENTER */
+  .slide.active {
+    transform: translateX(0) scale(1);
+    z-index: 5;
+    opacity: 1;
+  }
+
+  /* RIGHT SIDE */
+  .slide.next {
+    transform: translateX(160px) scale(0.9);
+    z-index: 4;
+    opacity: 0.8;
+  }
+
+  .slide.next2 {
+    transform: translateX(300px) scale(0.8);
+    z-index: 3;
+    opacity: 0.6;
+  }
+
+  /* LEFT SIDE */
+  .slide.prev {
+    transform: translateX(-160px) scale(0.9);
+    z-index: 4;
+    opacity: 0.8;
+  }
+
+  .slide.prev2 {
+    transform: translateX(-300px) scale(0.8);
+    z-index: 3;
+    opacity: 0.6;
+  }
+
+  /* MOBILE */
+  @media (max-width: 600px) {
+    .slide {
+      width: 240px;
+      height: 340px;
     }
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #000;
-      color: #fff;
-      overflow-x: hidden;
-    }
-
-    section {
-      padding: 60px 20px;
-      text-align: center;
-    }
-
-    h1, h2 {
-      margin-bottom: 20px;
-    }
-
-    p {
-      opacity: 0.9;
-      margin-bottom: 30px;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 18px 40px;
-      background: #dc2626;
-      color: white;
-      text-decoration: none;
-      font-size: 22px;
-      border-radius: 14px;
-      font-weight: bold;
-    }
-
-    /* ===== COVERFLOW ===== */
-    .coverflow {
-      display: flex;
-      gap: 16px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      align-items: center;
-
-      /* ✅ SAFE CENTER PADDING */
-      padding: 20px calc(50% - 170px) 40px;
-
-      direction: ltr;
-    }
-
-    .coverflow::-webkit-scrollbar {
-      display: none;
-    }
-
-    .card {
-      scroll-snap-align: center;
-      flex-shrink: 0;
-      width: 70%;
-      max-width: 340px;
-      height: 420px;
-      border-radius: 20px;
-      overflow: hidden;
-      background: #000;
-
-      transition: transform 0.4s ease, opacity 0.4s ease;
-      opacity: 0.45;
-      transform: scale(0.85);
-    }
-
-    .card.active {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    .card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      user-select: none;
-      -webkit-user-drag: none;
-    }
-
-    @media (max-width: 600px) {
-      .card {
-        height: 360px;
-      }
-
-      .coverflow {
-        padding: 20px calc(50% - 150px) 40px;
-      }
-    }
-  </style>
+    .slide.next { transform: translateX(130px) scale(0.9); }
+    .slide.next2 { transform: translateX(240px) scale(0.8); }
+    .slide.prev { transform: translateX(-130px) scale(0.9); }
+    .slide.prev2 { transform: translateX(-240px) scale(0.8); }
+  }
+</style>
 </head>
 
 <body>
 
-<!-- HERO -->
 <section>
   <h1>EBWRAPING</h1>
-  <p>עטיפות רכב • השחרת חלונות • PPF</p>
-  <a class="btn" href="https://wa.me/9725XXXXXXXX">קביעת תור</a>
+  <p>Car Wrapping • Window Tint • PPF</p>
 </section>
 
-<!-- WORKS -->
 <section>
-  <h2>העבודות שלנו</h2>
+  <h2>Our Work</h2>
 
-  <div class="coverflow">
-    <div class="card"><img src="work1.jpg"></div>
-    <div class="card"><img src="work2.jpg"></div>
-    <div class="card"><img src="work3.jpg"></div>
-    <div class="card"><img src="work4.jpg"></div>
-    <div class="card"><img src="work5.jpg"></div>
-    <div class="card"><img src="work6.jpg"></div>
+  <div class="stack-slider" id="slider">
+    <div class="slide"><img src="work1.jpg"></div>
+    <div class="slide"><img src="work2.jpg"></div>
+    <div class="slide"><img src="work3.jpg"></div>
+    <div class="slide"><img src="work4.jpg"></div>
+    <div class="slide"><img src="work5.jpg"></div>
+    <div class="slide"><img src="work6.jpg"></div>
   </div>
 </section>
 
-<!-- SERVICES -->
-<section>
-  <h2>השירותים שלנו</h2>
-  <p>עטיפת רכב • השחרת חלונות • PPF • עיצוב מיוחד</p>
-  <a class="btn" href="https://wa.me/9725XXXXXXXX">קבע תור</a>
-</section>
-
 <script>
-  const container = document.querySelector('.coverflow');
-  const cards = document.querySelectorAll('.card');
+  const slides = document.querySelectorAll('.slide');
+  let index = 0;
 
-  function updateActiveCard() {
-    const center = container.scrollLeft + container.offsetWidth / 2;
-
-    cards.forEach(card => {
-      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
-      if (Math.abs(center - cardCenter) < card.offsetWidth / 2) {
-        card.classList.add('active');
-      } else {
-        card.classList.remove('active');
-      }
+  function updateSlides() {
+    slides.forEach(slide => {
+      slide.className = 'slide';
     });
+
+    slides[index].classList.add('active');
+
+    if (slides[index + 1]) slides[index + 1].classList.add('next');
+    if (slides[index + 2]) slides[index + 2].classList.add('next2');
+
+    if (slides[index - 1]) slides[index - 1].classList.add('prev');
+    if (slides[index - 2]) slides[index - 2].classList.add('prev2');
   }
 
-  window.addEventListener('load', () => {
-    const firstCard = cards[0];
-    const scrollTo =
-      firstCard.offsetLeft -
-      container.offsetWidth / 2 +
-      firstCard.offsetWidth / 2;
+  updateSlides();
 
-    container.scrollLeft = scrollTo;
-    updateActiveCard();
+  let startX = 0;
+
+  document.getElementById('slider').addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
   });
 
-  container.addEventListener('scroll', updateActiveCard);
+  document.getElementById('slider').addEventListener('touchend', e => {
+    let endX = e.changedTouches[0].clientX;
+    if (startX - endX > 50 && index < slides.length - 1) {
+      index++;
+    }
+    if (endX - startX > 50 && index > 0) {
+      index--;
+    }
+    updateSlides();
+  });
 </script>
 
 </body>
