@@ -52,8 +52,8 @@
       -webkit-overflow-scrolling: touch;
       align-items: center;
 
-      /* 🔥 THIS IS IMPORTANT */
-      padding: 20px 50vw 40px; /* left & right space */
+      /* ✅ SAFE CENTER PADDING */
+      padding: 20px calc(50% - 170px) 40px;
 
       direction: ltr;
     }
@@ -95,6 +95,10 @@
       .card {
         height: 360px;
       }
+
+      .coverflow {
+        padding: 20px calc(50% - 150px) 40px;
+      }
     }
   </style>
 </head>
@@ -119,8 +123,6 @@
     <div class="card"><img src="work4.jpg"></div>
     <div class="card"><img src="work5.jpg"></div>
     <div class="card"><img src="work6.jpg"></div>
-    <div class="card"><img src="work7.jpg"></div>
-    <div class="card"><img src="work8.jpg"></div>
   </div>
 </section>
 
