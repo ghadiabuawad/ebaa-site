@@ -24,7 +24,9 @@ section:first-of-type {
   margin-top: 40px;
 }
 
-h1, h2 { margin-bottom: 20px; }
+h1, h2 {
+  margin-bottom: 20px;
+}
 
 .btn {
   display: inline-block;
@@ -37,7 +39,7 @@ h1, h2 { margin-bottom: 20px; }
   font-weight: bold;
 }
 
-/* ===== NEWS TICKER (TRUE CONTINUOUS LOOP) ===== */
+/* ===== NEWS TICKER (NO GAPS EVER) ===== */
 .news-ticker {
   position: fixed;
   top: 0;
@@ -51,23 +53,23 @@ h1, h2 { margin-bottom: 20px; }
   align-items: center;
 }
 
-.news-inner {
+.news-wrapper {
   display: flex;
   width: max-content;
-  animation: tickerScroll 20s linear infinite;
+  animation: tickerMove 18s linear infinite;
 }
 
-.news-inner span {
+.news-inner {
   white-space: nowrap;
-  padding: 0 50px;
+  padding: 0 60px;
   font-size: 15px;
   font-weight: bold;
-  color: #fff;
+  color: white;
 }
 
-@keyframes tickerScroll {
+@keyframes tickerMove {
   from { transform: translateX(0); }
-  to   { transform: translateX(-100%); }
+  to   { transform: translateX(-50%); }
 }
 
 /* ===== SLIDER ===== */
@@ -105,7 +107,7 @@ h1, h2 { margin-bottom: 20px; }
 .next2 { transform: translateX(300px) scale(.8); opacity: .6; }
 .prev2 { transform: translateX(-300px) scale(.8); opacity: .6; }
 
-/* ===== FULLSCREEN VIEWER ===== */
+/* ===== VIEWER ===== */
 .viewer {
   position: fixed;
   inset: 0;
@@ -116,11 +118,15 @@ h1, h2 { margin-bottom: 20px; }
   z-index: 9999;
 }
 
-.viewer.active { display: flex; }
+.viewer.active {
+  display: flex;
+}
 
 .viewer img {
   max-width: 90vw;
   max-height: 90vh;
+  transform: scale(1);
+  transition: transform 0.15s ease;
 }
 </style>
 </head>
@@ -129,10 +135,13 @@ h1, h2 { margin-bottom: 20px; }
 
 <!-- NEWS TICKER -->
 <div class="news-ticker">
-  <div class="news-inner">
-    <span>🔴 מבצע השבוע • עטיפת רכב במחיר מיוחד • השחרת חלונות • PPF איכותי • קביעת תור עכשיו 🔴</span>
-    <span>🔴 מבצע השבוע • עטיפת רכב במחיר מיוחד • השחרת חלונות • PPF איכותי • קביעת תור עכשיו 🔴</span>
-    <span>🔴 מבצע השבוע • עטיפת רכב במחיר מיוחד • השחרת חלונות • PPF איכותי • קביעת תור עכשיו 🔴</span>
+  <div class="news-wrapper">
+    <div class="news-inner">
+      🔴 מבצע השבוע • עטיפת רכב במחיר מיוחד • השחרת חלונות • PPF איכותי • קביעת תור עכשיו 🔴
+    </div>
+    <div class="news-inner">
+      🔴 מבצע השבוע • עטיפת רכב במחיר מיוחד • השחרת חלונות • PPF איכותי • קביעת תור עכשיו 🔴
+    </div>
   </div>
 </div>
 
@@ -144,6 +153,7 @@ h1, h2 { margin-bottom: 20px; }
 
 <section>
   <h2>העבודות שלנו</h2>
+
   <div class="coverflow" id="slider">
     <div class="card"><img src="work1.jpg"></div>
     <div class="card"><img src="work2.jpg"></div>
@@ -182,7 +192,7 @@ h1, h2 { margin-bottom: 20px; }
 </div>
 
 <script>
-/* SLIDER */
+/* ===== SLIDER ===== */
 const cards = document.querySelectorAll('.card');
 let index = 0;
 const total = cards.length;
@@ -216,19 +226,34 @@ setInterval(() => {
   update();
 }, 2000);
 
-/* viewer */
+/* ===== VIEWER ===== */
 const viewer = document.getElementById('viewer');
 const viewerImg = document.getElementById('viewerImg');
+let scale = 1;
 
 cards.forEach(card => {
   card.onclick = () => {
     if (!card.classList.contains('active')) return;
     viewerImg.src = card.querySelector('img').src;
+    scale = 1;
+    viewerImg.style.transform = 'scale(1)';
     viewer.classList.add('active');
   };
 });
 
-viewer.onclick = () => viewer.classList.remove('active');
+/* zoom + exit */
+viewerImg.addEventListener('wheel', e => {
+  e.preventDefault();
+  scale += e.deltaY * -0.001;
+  scale = Math.min(Math.max(scale, 1), 3);
+  viewerImg.style.transform = `scale(${scale})`;
+  if (scale === 1) viewer.classList.remove('active');
+}, { passive: false });
+
+/* tap background to exit */
+viewer.addEventListener('click', e => {
+  if (e.target === viewer) viewer.classList.remove('active');
+});
 </script>
 
 </body>
