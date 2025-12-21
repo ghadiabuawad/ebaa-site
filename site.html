@@ -11,6 +11,7 @@
       font-family: Arial, sans-serif;
       background: #000;
       color: white;
+      overflow-x: hidden;
       direction: rtl;
     }
 
@@ -35,21 +36,45 @@
       font-weight: bold;
     }
 
-    /* ===== GALLERY – SIMPLE & SAFE ===== */
-    .gallery {
-      max-width: 420px;
-      margin: 0 auto;
+    /* ===== INSTAGRAM STYLE CAROUSEL ===== */
+    .carousel {
       display: flex;
-      flex-direction: column;
-      gap: 16px;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 10px 12px 20px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+
+      direction: ltr; /* חשוב */
     }
 
-    .gallery img {
-      width: 100%;
-      height: auto;
-      border-radius: 16px;
-      display: block;
+    .carousel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .card {
+      flex: 0 0 88%;
+      max-width: 88%;
+      height: 380px;
+      border-radius: 18px;
+      overflow: hidden;
       background: #000;
+      scroll-snap-align: center;
+    }
+
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        height: 340px;
+      }
     }
   </style>
 </head>
@@ -63,33 +88,33 @@
   <a class="btn" href="https://wa.me/9725XXXXXXXX">קביעת תור</a>
 </section>
 
-<!-- WORKS -->
+<!-- GALLERY -->
 <section>
   <h2>העבודות שלנו</h2>
 
-  <div class="gallery">
-    <img src="work1.jpg">
-    <img src="work2.jpg">
-    <img src="work3.jpg">
-    <img src="work4.jpg">
-    <img src="work5.jpg">
-    <img src="work6.jpg">
-    <img src="work7.jpg">
-    <img src="work8.jpg">
-    <img src="work9.jpg">
-    <img src="work10.jpg">
-    <img src="work11.jpg">
-    <img src="work12.jpg">
-    <img src="work13.jpg">
-    <img src="work14.jpg">
-    <img src="work15.jpg">
-    <img src="work16.jpg">
-    <img src="work17.jpg">
-    <img src="work18.jpg">
-    <img src="work20.jpg">
-    <img src="work21.jpg">
-    <img src="work22.jpg">
-    <img src="work23.jpg">
+  <div class="carousel">
+    <div class="card"><img src="work1.jpg"></div>
+    <div class="card"><img src="work2.jpg"></div>
+    <div class="card"><img src="work3.jpg"></div>
+    <div class="card"><img src="work4.jpg"></div>
+    <div class="card"><img src="work5.jpg"></div>
+    <div class="card"><img src="work6.jpg"></div>
+    <div class="card"><img src="work7.jpg"></div>
+    <div class="card"><img src="work8.jpg"></div>
+    <div class="card"><img src="work9.jpg"></div>
+    <div class="card"><img src="work10.jpg"></div>
+    <div class="card"><img src="work11.jpg"></div>
+    <div class="card"><img src="work12.jpg"></div>
+    <div class="card"><img src="work13.jpg"></div>
+    <div class="card"><img src="work14.jpg"></div>
+    <div class="card"><img src="work15.jpg"></div>
+    <div class="card"><img src="work16.jpg"></div>
+    <div class="card"><img src="work17.jpg"></div>
+    <div class="card"><img src="work18.jpg"></div>
+    <div class="card"><img src="work20.jpg"></div>
+    <div class="card"><img src="work21.jpg"></div>
+    <div class="card"><img src="work22.jpg"></div>
+    <div class="card"><img src="work23.jpg"></div>
   </div>
 </section>
 
