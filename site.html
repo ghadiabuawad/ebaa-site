@@ -88,8 +88,8 @@
   .viewer img {
     max-width: 90vw;
     max-height: 90vh;
-    transform-origin: center;
-    transition: none; /* IMPORTANT */
+    transform-origin: 0 0; /* IMPORTANT for pinch math */
+    transition: none;
   }
 </style>
 </head>
@@ -106,7 +106,6 @@
   <h2>העבודות שלנו</h2>
 
   <div class="coverflow" id="slider">
-    <!-- 23 images -->
     <div class="card"><img src="work1.jpg"></div>
     <div class="card"><img src="work2.jpg"></div>
     <div class="card"><img src="work3.jpg"></div>
@@ -172,69 +171,139 @@
     update();
   });
 
-  /* ===== INSTAGRAM CORRECT ZOOM ===== */
+  /* ===== VIEWER: PINCH ZOOM WHERE YOU PINCH ===== */
   const viewer = document.getElementById('viewer');
   const img = document.getElementById('viewerImg');
 
-  let scale = 1, posX = 0, posY = 0;
+  let scale = 1;
+  let posX = 0, posY = 0;
+
+  let isPinching = false;
   let startDist = 0, startScale = 1;
-  let startX = 0, startY = 0;
+  let startPosX = 0, startPosY = 0;
+
+  let startPanX = 0, startPanY = 0;
+
+  // pinch anchor (point between fingers in viewer coordinates)
+  let anchorX = 0, anchorY = 0;
+  let startAnchorWorldX = 0, startAnchorWorldY = 0;
+
+  function applyTransform() {
+    img.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
+  }
 
   cards.forEach(card => {
     card.onclick = () => {
       if (!card.classList.contains('active')) return;
       img.src = card.querySelector('img').src;
-      scale = 1; posX = posY = 0;
-      img.style.transform = 'translate(0,0) scale(1)';
+      scale = 1;
+      posX = posY = 0;
+      applyTransform();
       viewer.classList.add('active');
     };
   });
 
+  function getPinchCenter(t1, t2) {
+    return {
+      x: (t1.clientX + t2.clientX) / 2,
+      y: (t1.clientY + t2.clientY) / 2
+    };
+  }
+
   viewer.addEventListener('touchstart', e => {
+    if (!viewer.classList.contains('active')) return;
+
     if (e.touches.length === 2) {
+      isPinching = true;
+
+      const c = getPinchCenter(e.touches[0], e.touches[1]);
+      const rect = img.getBoundingClientRect();
+
+      // Anchor point in IMAGE coordinates (before transform)
+      // Convert screen -> image local:
+      // local = (screen - rectTopLeft) / currentScale
+      anchorX = (c.x - rect.left) / scale;
+      anchorY = (c.y - rect.top) / scale;
+
       startDist = Math.hypot(
         e.touches[0].clientX - e.touches[1].clientX,
         e.touches[0].clientY - e.touches[1].clientY
       );
+
       startScale = scale;
+      startPosX = posX;
+      startPosY = posY;
+
+      // Save "world" position of anchor for stable zoom
+      startAnchorWorldX = startPosX + anchorX * startScale;
+      startAnchorWorldY = startPosY + anchorY * startScale;
     }
-    if (e.touches.length === 1) {
-      startX = e.touches[0].clientX - posX;
-      startY = e.touches[0].clientY - posY;
+
+    if (e.touches.length === 1 && !isPinching) {
+      // Pan start
+      startPanX = e.touches[0].clientX - posX;
+      startPanY = e.touches[0].clientY - posY;
     }
   });
 
   viewer.addEventListener('touchmove', e => {
+    if (!viewer.classList.contains('active')) return;
     e.preventDefault();
 
+    // Pinch zoom
     if (e.touches.length === 2) {
       const dist = Math.hypot(
         e.touches[0].clientX - e.touches[1].clientX,
         e.touches[0].clientY - e.touches[1].clientY
       );
-      scale = Math.min(Math.max(startScale * (dist / startDist), 1), 3);
+
+      const newScale = Math.min(Math.max(startScale * (dist / startDist), 1), 3);
+
+      // Keep anchor stable: anchor world = pos + anchor*scale
+      // => pos = anchorWorld - anchor*newScale
+      scale = newScale;
+      posX = startAnchorWorldX - anchorX * scale;
+      posY = startAnchorWorldY - anchorY * scale;
+
+      applyTransform();
+      return;
     }
 
+    // Pan when zoomed
     if (e.touches.length === 1) {
-      posX = e.touches[0].clientX - startX;
-      posY = e.touches[0].clientY - startY;
+      const newPosX = e.touches[0].clientX - startPanX;
+      const newPosY = e.touches[0].clientY - startPanY;
 
-      /* 🔥 EXIT ONLY WHEN SCALE IS NORMAL */
-      if (scale <= 1 && posY > 140) {
-        viewer.classList.remove('active');
-        return;
+      // If not zoomed: only allow pull-down-to-exit, do not drift sideways
+      if (scale <= 1) {
+        posX = 0;
+        posY = newPosY;
+
+        if (posY > 140) {
+          viewer.classList.remove('active');
+          scale = 1; posX = posY = 0;
+          applyTransform();
+          return;
+        }
+      } else {
+        posX = newPosX;
+        posY = newPosY;
       }
-    }
 
-    img.style.transform =
-      `translate(${posX}px, ${posY}px) scale(${scale})`;
+      applyTransform();
+    }
   });
 
-  viewer.addEventListener('touchend', () => {
+  viewer.addEventListener('touchend', e => {
+    // When pinch ends, allow panning again
+    if (e.touches.length < 2) isPinching = false;
+
+    // If user ended at normal scale, snap back cleanly
     if (scale <= 1) {
       scale = 1;
-      posX = posY = 0;
-      img.style.transform = 'translate(0,0) scale(1)';
+      posX = 0;
+      posY = 0;
+      applyTransform();
     }
   });
 </script>
