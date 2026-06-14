@@ -2,70 +2,132 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>EBWRAPING</title>
+<title>EBWRAPPING</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
- 
+
 <style>
+:root {
+  --brand-red: #dc2626;
+  --brand-red-dark: #b91c1c;
+  --page-bg: #000;
+  --text: #fff;
+  --muted: #d1d5db;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  background: #000;
-  color: #fff;
+  background: var(--page-bg);
+  color: var(--text);
   font-family: Arial, sans-serif;
   overflow-x: hidden;
 }
 
 section {
-  padding: 60px 20px;
+  padding: 56px 20px;
   text-align: center;
 }
 
-h1, h2 { margin-bottom: 20px; }
+.hero {
+  padding-top: 72px;
+  padding-bottom: 36px;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 14px;
+  font-size: clamp(40px, 9vw, 88px);
+  letter-spacing: 0;
+}
+
+h2 {
+  margin-bottom: 26px;
+  font-size: clamp(28px, 5vw, 44px);
+}
+
+.hero p {
+  margin-bottom: 30px;
+  color: var(--muted);
+  font-size: clamp(18px, 3vw, 26px);
+  line-height: 1.6;
+}
 
 .btn {
   display: inline-block;
-  padding: 18px 40px;
-  background: #dc2626;
+  padding: 18px 42px;
+  background: var(--brand-red);
   color: white;
   text-decoration: none;
   font-size: 22px;
   border-radius: 14px;
   font-weight: bold;
+  transition: background .2s ease, transform .2s ease;
 }
 
-/* ===== SLIDER ===== */
+.btn:hover,
+.btn:focus-visible {
+  background: var(--brand-red-dark);
+  transform: translateY(-2px);
+}
+
+/* Gallery slider */
 .coverflow {
   position: relative;
-  height: 420px;
+  height: min(430px, 72vw);
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  touch-action: pan-y;
 }
 
 .card {
   position: absolute;
-  width: 280px;
-  height: 380px;
-  border-radius: 20px;
+  width: min(280px, 68vw);
+  aspect-ratio: 14 / 19;
+  border-radius: 18px;
   overflow: hidden;
   opacity: 0;
   filter: blur(8px);
   transition: transform .45s ease, opacity .45s ease, filter .45s ease;
+  cursor: pointer;
+  background: #111;
 }
 
 .card img {
   width: 100%;
   height: 100%;
+  display: block;
   object-fit: cover;
 }
 
-.active { transform: scale(1); opacity: 1; filter: blur(0); z-index: 5; }
-.next { transform: translateX(160px) scale(.9); opacity: .8; }
-.prev { transform: translateX(-160px) scale(.9); opacity: .8; }
-.next2 { transform: translateX(300px) scale(.8); opacity: .5; }
-.prev2 { transform: translateX(-300px) scale(.8); opacity: .5; }
+.active {
+  transform: translateX(0) scale(1);
+  opacity: 1;
+  filter: blur(0);
+  z-index: 5;
+}
 
-/* ===== VIEWER ===== */
+.next { transform: translateX(160px) scale(.9); opacity: .8; z-index: 4; }
+.prev { transform: translateX(-160px) scale(.9); opacity: .8; z-index: 4; }
+.next2 { transform: translateX(300px) scale(.8); opacity: .45; z-index: 3; }
+.prev2 { transform: translateX(-300px) scale(.8); opacity: .45; z-index: 3; }
+
+.gallery-count {
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+/* Fullscreen image viewer */
 .viewer {
   position: fixed;
   inset: 0;
@@ -75,60 +137,118 @@ h1, h2 { margin-bottom: 20px; }
   align-items: center;
   z-index: 9999;
   touch-action: none;
+  padding: 20px;
 }
 
-.viewer.active { display: flex; }
+.viewer.active {
+  display: flex;
+}
 
 .viewer img {
-  max-width: 90vw;
-  max-height: 90vh;
+  max-width: 94vw;
+  max-height: 92vh;
   transform-origin: center;
+}
+
+.close-viewer {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--brand-red);
+  color: white;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  section {
+    padding: 42px 14px;
+  }
+
+  .hero {
+    padding-top: 54px;
+  }
+
+  .btn {
+    width: min(88vw, 360px);
+    padding: 16px 20px;
+    font-size: 20px;
+  }
+
+  .coverflow {
+    height: 390px;
+  }
+
+  .next { transform: translateX(92px) scale(.88); }
+  .prev { transform: translateX(-92px) scale(.88); }
+  .next2 { transform: translateX(170px) scale(.78); opacity: .35; }
+  .prev2 { transform: translateX(-170px) scale(.78); opacity: .35; }
 }
 </style>
 </head>
 
 <body>
 
-<section>
-  <h1>EBWRAPING</h1>
+<section class="hero">
+  <h1>EBWRAPPING</h1>
   <p>עטיפות רכב • השחרת חלונות • PPF</p>
-  <a class="btn" href="https://wa.me/9725XXXXXXXX">קביעת תור</a>
+  <a class="btn" href="https://wa.me/972504469777" target="_blank" rel="noopener">קביעת תור</a>
 </section>
 
 <section>
   <h2>העבודות שלנו</h2>
-
-  <div class="coverflow" id="slider">
-    <div class="card"><img src="work1.jpg"></div>
-    <div class="card"><img src="work2.jpg"></div>
-    <div class="card"><img src="work3.jpg"></div>
-    <div class="card"><img src="work4.jpg"></div>
-    <div class="card"><img src="work5.jpg"></div>
-  </div>
+  <div class="coverflow" id="slider" aria-label="גלריית עבודות"></div>
+  <div class="gallery-count" id="galleryCount"></div>
 </section>
 
-<div class="viewer" id="viewer">
-  <img id="viewerImg">
+<div class="viewer" id="viewer" aria-hidden="true">
+  <button class="close-viewer" id="closeViewer" type="button" aria-label="סגירת תמונה">×</button>
+  <img id="viewerImg" alt="תצוגה מוגדלת של עבודה">
 </div>
 
 <script>
-/* ===== SLIDER LOGIC ===== */
-const cards = document.querySelectorAll('.card');
+/* Gallery files in the repository. work19.jpg does not exist, so it is skipped. */
+const workImages = [
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+  13, 14, 15, 16, 17, 18, 20, 21, 22, 23
+].map(number => ({
+  src: `work${number}.jpg`,
+  alt: `עבודת רכב מספר ${number}`
+}));
+
+const slider = document.getElementById('slider');
+const galleryCount = document.getElementById('galleryCount');
+
+slider.innerHTML = workImages.map(image => `
+  <div class="card">
+    <img src="${image.src}" alt="${image.alt}">
+  </div>
+`).join('');
+
+galleryCount.textContent = `${workImages.length} תמונות בגלריה`;
+
+const cards = Array.from(document.querySelectorAll('.card'));
 let index = 0;
 const total = cards.length;
 const get = i => (i + total) % total;
 
 function update() {
-  cards.forEach(c => c.className = 'card');
+  cards.forEach(card => card.className = 'card');
   cards[get(index)].classList.add('active');
-  cards[get(index+1)].classList.add('next');
-  cards[get(index+2)].classList.add('next2');
-  cards[get(index-1)].classList.add('prev');
-  cards[get(index-2)].classList.add('prev2');
+  cards[get(index + 1)].classList.add('next');
+  cards[get(index + 2)].classList.add('next2');
+  cards[get(index - 1)].classList.add('prev');
+  cards[get(index - 2)].classList.add('prev2');
 }
+
 update();
 
-/* ===== AUTO MOVE ===== */
+/* Auto-advance pauses while the user is touching or viewing an image. */
 let autoTimer = null;
 let userInteracting = false;
 
@@ -148,9 +268,7 @@ function stopAuto() {
 
 startAuto();
 
-/* ===== TOUCH / MANUAL ===== */
 let startX = 0;
-const slider = document.getElementById('slider');
 
 slider.addEventListener('touchstart', e => {
   userInteracting = true;
@@ -163,36 +281,48 @@ slider.addEventListener('touchend', e => {
   if (dx > 50) index--;
   index = get(index);
   update();
-
-  // חזרה לאוטומטי אחרי שהמשתמש עזב
   userInteracting = false;
 });
 
-/* ===== CLICK → VIEWER ===== */
 const viewer = document.getElementById('viewer');
 const viewerImg = document.getElementById('viewerImg');
+const closeViewer = document.getElementById('closeViewer');
 let scale = 1;
 
+function openViewer(card) {
+  if (!card.classList.contains('active')) return;
+  userInteracting = true;
+  const image = card.querySelector('img');
+  viewerImg.src = image.src;
+  viewerImg.alt = image.alt;
+  viewer.classList.add('active');
+  viewer.setAttribute('aria-hidden', 'false');
+  scale = 1;
+  viewerImg.style.transform = 'scale(1)';
+}
+
+function closeImageViewer() {
+  viewer.classList.remove('active');
+  viewer.setAttribute('aria-hidden', 'true');
+  viewerImg.removeAttribute('src');
+  userInteracting = false;
+}
+
 cards.forEach(card => {
-  card.addEventListener('click', () => {
-    if (!card.classList.contains('active')) return;
-    userInteracting = true;
-    viewerImg.src = card.querySelector('img').src;
-    viewer.classList.add('active');
-    scale = 1;
-    viewerImg.style.transform = 'scale(1)';
-  });
+  card.addEventListener('click', () => openViewer(card));
 });
 
-/* close viewer */
+closeViewer.addEventListener('click', closeImageViewer);
+
 viewer.addEventListener('click', e => {
-  if (e.target === viewer) {
-    viewer.classList.remove('active');
-    userInteracting = false; // חזרה לתנועה אוטומטית
-  }
+  if (e.target === viewer) closeImageViewer();
 });
 
-/* ===== PINCH ZOOM ===== */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && viewer.classList.contains('active')) closeImageViewer();
+});
+
+/* Pinch zoom for mobile fullscreen images. */
 let startDist = 0;
 let baseScale = 1;
 
@@ -204,10 +334,11 @@ viewer.addEventListener('touchstart', e => {
     );
     baseScale = scale;
   }
-}, { passive:false });
+}, { passive: false });
 
 viewer.addEventListener('touchmove', e => {
   if (e.touches.length === 2) {
+    e.preventDefault();
     const dist = Math.hypot(
       e.touches[0].clientX - e.touches[1].clientX,
       e.touches[0].clientY - e.touches[1].clientY
@@ -215,7 +346,7 @@ viewer.addEventListener('touchmove', e => {
     scale = Math.max(1, Math.min(3, baseScale * dist / startDist));
     viewerImg.style.transform = `scale(${scale})`;
   }
-}, { passive:false });
+}, { passive: false });
 </script>
 
 </body>
