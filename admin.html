@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ניהול EBWRAPPING</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+:root {
+  --red: #dc2626;
+  --red-dark: #b91c1c;
+  --bg: #000;
+  --card: #111;
+  --border: #292929;
+  --muted: #aaa;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  width: min(94%, 700px);
+  margin: auto;
+  padding: 30px 0 70px;
+}
+
+.logo {
+  text-align: center;
+  font-size: 38px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  text-align: center;
+  color: var(--muted);
+  margin-bottom: 30px;
+}
+
+/* LOGIN */
+
+.login-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 24px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  border: 1px solid #333;
+  background: #191919;
+  color: white;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  border: 0;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.red-btn {
+  background: var(--red);
+  color: white;
+}
+
+.red-btn:hover {
+  background: var(--red-dark);
+}
+
+.logout {
+  background: #252525;
+  color: white;
+  margin-bottom: 25px;
+}
+
+/* ADMIN */
+
+#admin {
+  display: none;
+}
+
+.add-product {
+  margin-bottom: 25px;
+}
+
+.products {
+  display: grid;
+  gap: 18px;
+}
+
+.product {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.product img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  display: block;
+  background: #1a1a1a;
+}
+
+.product-content {
+  padding: 18px;
+}
+
+.product-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.status {
+  display: inline-block;
+  margin-bottom: 15px;
+  padding: 7px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.available {
+  background: #16a34a;
+}
+
+.low {
+  background: #d97706;
+}
+
+.out {
+  background: #525252;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.edit-btn {
+  background: #262626;
+  color: white;
+}
+
+.delete-btn {
+  background: #7f1d1d;
+  color: white;
+}
+
+.file-label {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: #262626;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 12px;
+}
+
+.file-input {
+  display: none;
+}
+
+.message {
+  margin-top: 12px;
+  text-align: center;
+  min-height: 20px;
+}
+
+.loading {
+  text-align: center;
+  color: var(--muted);
+  padding: 30px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    width: 92%;
+  }
+
+  .product img {
+    height: 220px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="logo">EBWRAPPING</div>
+  <div class="subtitle">ניהול מלאי</div>
+
+
+  <!-- LOGIN -->
+
+  <div id="loginBox" class="login-box">
+
+    <input
+      id="email"
+      type="email"
+      placeholder="אימייל"
+      autocomplete="email"
+    >
+
+    <input
+      id="password"
+      type="password"
+      placeholder="סיסמה"
+      autocomplete="current-password"
+    >
+
+    <button class="red-btn" onclick="login()">
+      כניסה לניהול
+    </button>
+
+    <div id="loginMessage" class="message"></div>
+
+  </div>
+
+
+  <!-- ADMIN -->
+
+  <div id="admin">
+
+    <button class="logout" onclick="logout()">
+      יציאה מהחשבון
+    </button>
+
+    <button class="red-btn add-product" onclick="newProduct()">
+      + הוסף מוצר
+    </button>
+
+    <div id="products" class="products"></div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const SUPABASE_URL =
+  'https://gdcfgslzqkxmeasslfcq.supabase.co';
+
+const SUPABASE_KEY =
+  'sb_publishable_Ek1TmaDECTedjTDmdMUJPA_trWZXBLI';
+
+const client = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+const loginBox =
+  document.getElementById('loginBox');
+
+const admin =
+  document.getElementById('admin');
+
+const productsElement =
+  document.getElementById('products');
+
+
+/* ===============================
+   AUTH
+================================ */
+
+async function checkLogin() {
+
+  const {
+    data: { session }
+  } = await client.auth.getSession();
+
+  if (session) {
+
+    loginBox.style.display = 'none';
+    admin.style.display = 'block';
+
+    loadProducts();
+
+  } else {
+
+    loginBox.style.display = 'block';
+    admin.style.display = 'none';
+
+  }
+
+}
+
+
+async function login() {
+
+  const email =
+    document.getElementById('email').value.trim();
+
+  const password =
+    document.getElementById('password').value;
+
+  const message =
+    document.getElementById('loginMessage');
+
+  message.textContent = 'מתחבר...';
+
+  const { error } =
+    await client.auth.signInWithPassword({
+      email,
+      password
+    });
+
+  if (error) {
+
+    message.textContent =
+      'האימייל או הסיסמה אינם נכונים';
+
+    return;
+  }
+
+  message.textContent = '';
+
+  checkLogin();
+
+}
+
+
+async function logout() {
+
+  await client.auth.signOut();
+
+  checkLogin();
+
+}
+
+
+/* ===============================
+   LOAD PRODUCTS
+================================ */
+
+async function loadProducts() {
+
+  productsElement.innerHTML =
+    '<div class="loading">טוען מלאי...</div>';
+
+  const { data, error } =
+    await client
+      .from('products')
+      .select('*')
+      .order('id');
+
+
+  if (error) {
+
+    productsElement.innerHTML =
+      'שגיאה בטעינת המוצרים';
+
+    console.error(error);
+
+    return;
+  }
+
+
+  if (!data.length) {
+
+    productsElement.innerHTML =
+      '<div class="loading">אין מוצרים במלאי</div>';
+
+    return;
+  }
+
+
+  productsElement.innerHTML =
+    data.map(product => {
+
+      let statusClass = 'out';
+
+      if (product['זמינות'] === 'במלאי')
+        statusClass = 'available';
+
+      if (product['זמינות'] === 'נשאר מעט')
+        statusClass = 'low';
+
+
+      return `
+        <div class="product">
+
+          ${
+            product['תמונה']
+              ? `<img src="${escapeHtml(product['תמונה'])}">`
+              : ''
+          }
+
+          <div class="product-content">
+
+            <div class="product-title">
+              ${escapeHtml(product['שם'] || '')}
+            </div>
+
+            <span class="status ${statusClass}">
+              ${escapeHtml(product['זמינות'] || 'לא הוגדר')}
+            </span>
+
+
+            <input
+              id="name-${product.id}"
+              value="${escapeHtml(product['שם'] || '')}"
+              placeholder="שם המוצר"
+            >
+
+
+            <select id="status-${product.id}">
+
+              <option
+                value="במלאי"
+                ${product['זמינות'] === 'במלאי'
+                  ? 'selected'
+                  : ''}
+              >
+                🟢 במלאי
+              </option>
+
+              <option
+                value="נשאר מעט"
+                ${product['זמינות'] === 'נשאר מעט'
+                  ? 'selected'
+                  : ''}
+              >
+                🟠 נשאר מעט
+              </option>
+
+              <option
+                value="אזל מהמלאי"
+                ${product['זמינות'] === 'אזל מהמלאי'
+                  ? 'selected'
+                  : ''}
+              >
+                ⚫ אזל מהמלאי
+              </option>
+
+            </select>
+
+
+            <label
+              class="file-label"
+              for="file-${product.id}"
+            >
+              📷 החלף תמונה
+            </label>
+
+            <input
+              class="file-input"
+              id="file-${product.id}"
+              type="file"
+              accept="image/*"
+            >
+
+
+            <div class="actions">
+
+              <button
+                class="red-btn"
+                onclick="saveProduct(${product.id})"
+              >
+                שמור
+              </button>
+
+              <button
+                class="delete-btn"
+                onclick="deleteProduct(${product.id})"
+              >
+                מחק
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+      `;
+
+    }).join('');
+
+}
+
+
+/* ===============================
+   SAVE PRODUCT
+================================ */
+
+async function saveProduct(id) {
+
+  const name =
+    document.getElementById(
+      `name-${id}`
+    ).value.trim();
+
+  const status =
+    document.getElementById(
+      `status-${id}`
+    ).value;
+
+  const fileInput =
+    document.getElementById(
+      `file-${id}`
+    );
+
+
+  let changes = {
+    'שם': name,
+    'זמינות': status
+  };
+
+
+  /* IMAGE */
+
+  if (fileInput.files.length) {
+
+    const file =
+      fileInput.files[0];
+
+    const extension =
+      file.name.split('.').pop();
+
+    const fileName =
+      `product-${id}-${Date.now()}.${extension}`;
+
+
+    const {
+      error: uploadError
+    } =
+      await client.storage
+        .from('product-images')
+        .upload(
+          fileName,
+          file,
+          {
+            upsert: true
+          }
+        );
+
+
+    if (uploadError) {
+
+      alert(
+        'שגיאה בהעלאת התמונה: ' +
+        uploadError.message
+      );
+
+      return;
+    }
+
+
+    const {
+      data: publicUrlData
+    } =
+      client.storage
+        .from('product-images')
+        .getPublicUrl(fileName);
+
+
+    changes['תמונה'] =
+      publicUrlData.publicUrl;
+
+  }
+
+
+  const { error } =
+    await client
+      .from('products')
+      .update(changes)
+      .eq('id', id);
+
+
+  if (error) {
+
+    alert(
+      'שגיאה בשמירת המוצר: ' +
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  alert('השינויים נשמרו ✅');
+
+  loadProducts();
+
+}
+
+
+/* ===============================
+   ADD PRODUCT
+================================ */
+
+async function newProduct() {
+
+  const name =
+    prompt('מה שם המוצר?');
+
+  if (!name)
+    return;
+
+
+  const { error } =
+    await client
+      .from('products')
+      .insert({
+        'שם': name,
+        'זמינות': 'במלאי'
+      });
+
+
+  if (error) {
+
+    alert(
+      'שגיאה בהוספת המוצר: ' +
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  loadProducts();
+
+}
+
+
+/* ===============================
+   DELETE PRODUCT
+================================ */
+
+async function deleteProduct(id) {
+
+  const confirmDelete =
+    confirm(
+      'בטוח שאתה רוצה למחוק את המוצר?'
+    );
+
+  if (!confirmDelete)
+    return;
+
+
+  const { error } =
+    await client
+      .from('products')
+      .delete()
+      .eq('id', id);
+
+
+  if (error) {
+
+    alert(
+      'שגיאה במחיקת המוצר: ' +
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  loadProducts();
+
+}
+
+
+/* Prevent HTML injection */
+
+function escapeHtml(value) {
+
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+
+}
+
+
+checkLogin();
+
+</script>
+
+</body>
+</html>
