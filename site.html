@@ -10,6 +10,7 @@
   --brand-red: #dc2626;
   --brand-red-dark: #b91c1c;
   --page-bg: #000;
+  --card-bg: #111;
   --text: #fff;
   --muted: #d1d5db;
 }
@@ -31,6 +32,10 @@ section {
   text-align: center;
 }
 
+/* =========================
+   HERO
+========================= */
+
 .hero {
   padding-top: 72px;
   padding-bottom: 36px;
@@ -45,11 +50,10 @@ p {
 h1 {
   margin-bottom: 14px;
   font-size: clamp(40px, 9vw, 88px);
-  letter-spacing: 0;
 }
 
 h2 {
-  margin-bottom: 26px;
+  margin-bottom: 12px;
   font-size: clamp(28px, 5vw, 44px);
 }
 
@@ -69,103 +73,178 @@ h2 {
   font-size: 22px;
   border-radius: 14px;
   font-weight: bold;
-  transition: background .2s ease, transform .2s ease;
+  transition: .2s ease;
 }
 
-.btn:hover,
-.btn:focus-visible {
+.btn:hover {
   background: var(--brand-red-dark);
   transform: translateY(-2px);
 }
 
-/* Gallery slider */
-.coverflow {
-  position: relative;
-  height: min(430px, 72vw);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  touch-action: pan-y;
+
+/* =========================
+   INVENTORY
+========================= */
+
+.inventory {
+  padding-top: 50px;
+  padding-bottom: 80px;
 }
 
-.card {
-  position: absolute;
-  width: min(280px, 68vw);
-  aspect-ratio: 14 / 19;
-  border-radius: 18px;
-  overflow: hidden;
-  opacity: 0;
-  filter: blur(8px);
-  transition: transform .45s ease, opacity .45s ease, filter .45s ease;
-  cursor: pointer;
-  background: #111;
+.inventory-description {
+  color: #9ca3af;
+  font-size: 17px;
+  margin-bottom: 38px;
 }
 
-.card img {
+/* Grid */
+
+.inventory-grid {
   width: 100%;
-  height: 100%;
-  display: block;
+  max-width: 1100px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 22px;
+}
+
+
+/* Product card */
+
+.product-card {
+  position: relative;
+  overflow: hidden;
+
+  background: var(--card-bg);
+  border: 1px solid #242424;
+  border-radius: 18px;
+
+  text-align: right;
+
+  transition:
+    transform .25s ease,
+    border-color .25s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--brand-red);
+}
+
+
+/* Product image */
+
+.product-image {
+  width: 100%;
+  height: 230px;
+
   object-fit: cover;
+  display: block;
 }
 
-.active {
-  transform: translateX(0) scale(1);
-  opacity: 1;
-  filter: blur(0);
-  z-index: 5;
+
+/* Information */
+
+.product-info {
+  padding: 18px;
 }
 
-.next { transform: translateX(160px) scale(.9); opacity: .8; z-index: 4; }
-.prev { transform: translateX(-160px) scale(.9); opacity: .8; z-index: 4; }
-.next2 { transform: translateX(300px) scale(.8); opacity: .45; z-index: 3; }
-.prev2 { transform: translateX(-300px) scale(.8); opacity: .45; z-index: 3; }
+.product-info h3 {
+  margin: 0 0 5px;
 
-.gallery-count {
-  margin-top: 18px;
-  color: var(--muted);
-  font-size: 16px;
-}
-
-/* Fullscreen image viewer */
-.viewer {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.95);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  touch-action: none;
-  padding: 20px;
-}
-
-.viewer.active {
-  display: flex;
-}
-
-.viewer img {
-  max-width: 94vw;
-  max-height: 92vh;
-  transform-origin: center;
-}
-
-.close-viewer {
-  position: fixed;
-  top: 16px;
-  left: 16px;
-  width: 42px;
-  height: 42px;
-  border: 0;
-  border-radius: 50%;
-  background: var(--brand-red);
+  font-size: 22px;
   color: white;
-  font-size: 28px;
-  line-height: 1;
-  cursor: pointer;
 }
+
+.product-type {
+  margin-bottom: 18px;
+
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+
+/* Stock status */
+
+.stock {
+  position: absolute;
+
+  top: 12px;
+  right: 12px;
+
+  padding: 7px 12px;
+
+  border-radius: 20px;
+
+  font-size: 13px;
+  font-weight: bold;
+
+  z-index: 2;
+}
+
+.stock.available {
+  background: #16a34a;
+}
+
+.stock.low {
+  background: #d97706;
+}
+
+.stock.out {
+  background: #525252;
+}
+
+
+/* Order button */
+
+.product-btn {
+  display: block;
+
+  width: 100%;
+
+  padding: 13px 10px;
+
+  border-radius: 10px;
+
+  background: var(--brand-red);
+
+  color: white;
+
+  text-align: center;
+  text-decoration: none;
+
+  font-size: 16px;
+  font-weight: bold;
+
+  transition: background .2s ease;
+}
+
+.product-btn:hover {
+  background: var(--brand-red-dark);
+}
+
+
+/* Out of stock */
+
+.product-card.sold-out .product-image {
+  opacity: .4;
+}
+
+.product-card.sold-out .product-btn {
+  background: #333;
+  color: #777;
+
+  pointer-events: none;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
 
 @media (max-width: 600px) {
+
   section {
     padding: 42px 14px;
   }
@@ -176,178 +255,242 @@ h2 {
 
   .btn {
     width: min(88vw, 360px);
+
     padding: 16px 20px;
+
     font-size: 20px;
   }
 
-  .coverflow {
-    height: 390px;
+  .inventory {
+    padding-top: 45px;
   }
 
-  .next { transform: translateX(92px) scale(.88); }
-  .prev { transform: translateX(-92px) scale(.88); }
-  .next2 { transform: translateX(170px) scale(.78); opacity: .35; }
-  .prev2 { transform: translateX(-170px) scale(.78); opacity: .35; }
+  .inventory-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .product-image {
+    height: 170px;
+  }
+
+  .product-info {
+    padding: 13px;
+  }
+
+  .product-info h3 {
+    font-size: 17px;
+  }
+
+  .product-type {
+    font-size: 12px;
+  }
+
+  .product-btn {
+    font-size: 14px;
+    padding: 11px 6px;
+  }
+
+  .stock {
+    top: 8px;
+    right: 8px;
+
+    font-size: 11px;
+    padding: 5px 8px;
+  }
 }
+
 </style>
 </head>
 
+
 <body>
 
+
+<!-- =========================
+     HERO
+========================= -->
+
 <section class="hero">
+
   <h1>EBWRAPPING</h1>
-  <p>עטיפות רכב • השחרת חלונות • PPF</p>
-  <a class="btn" href="https://wa.me/972504469777" target="_blank" rel="noopener">קביעת תור</a>
+
+  <p>
+    עטיפות רכב • השחרת חלונות • PPF
+  </p>
+
+  <a
+    class="btn"
+    href="https://wa.me/972504469777"
+    target="_blank"
+    rel="noopener"
+  >
+    קביעת תור
+  </a>
+
 </section>
 
-<section>
-  <h2>העבודות שלנו</h2>
-  <div class="coverflow" id="slider" aria-label="גלריית עבודות"></div>
-  <div class="gallery-count" id="galleryCount"></div>
-</section>
 
-<div class="viewer" id="viewer" aria-hidden="true">
-  <button class="close-viewer" id="closeViewer" type="button" aria-label="סגירת תמונה">×</button>
-  <img id="viewerImg" alt="תצוגה מוגדלת של עבודה">
-</div>
 
-<script>
-/* Gallery files in the repository. work19.jpg does not exist, so it is skipped. */
-const workImages = [
-  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-  13, 14, 15, 16, 17, 18, 20, 21, 22, 23
-].map(number => ({
-  src: `work${number}.jpg`,
-  alt: `עבודת רכב מספר ${number}`
-}));
+<!-- =========================
+     INVENTORY
+========================= -->
 
-const slider = document.getElementById('slider');
-const galleryCount = document.getElementById('galleryCount');
+<section class="inventory">
 
-slider.innerHTML = workImages.map(image => `
-  <div class="card">
-    <img src="${image.src}" alt="${image.alt}">
+  <h2>המלאי שלנו</h2>
+
+  <p class="inventory-description">
+    בחרו את הצבע והסגנון שמתאים לרכב שלכם
+  </p>
+
+
+  <div class="inventory-grid">
+
+
+    <!-- PRODUCT 1 -->
+
+    <article class="product-card">
+
+      <span class="stock available">
+        במלאי
+      </span>
+
+      <img
+        class="product-image"
+        src="black-gloss.jpg"
+        alt="שחור מבריק"
+      >
+
+      <div class="product-info">
+
+        <h3>שחור מבריק</h3>
+
+        <p class="product-type">
+          Gloss Black
+        </p>
+
+        <a
+          class="product-btn"
+          href="https://wa.me/972504469777?text=שלום,%20אני%20מעוניין%20בשחור%20מבריק"
+          target="_blank"
+        >
+          לפרטים והזמנה
+        </a>
+
+      </div>
+
+    </article>
+
+
+
+    <!-- PRODUCT 2 -->
+
+    <article class="product-card">
+
+      <span class="stock available">
+        במלאי
+      </span>
+
+      <img
+        class="product-image"
+        src="matte-black.jpg"
+        alt="שחור מט"
+      >
+
+      <div class="product-info">
+
+        <h3>שחור מט</h3>
+
+        <p class="product-type">
+          Matte Black
+        </p>
+
+        <a
+          class="product-btn"
+          href="https://wa.me/972504469777?text=שלום,%20אני%20מעוניין%20בשחור%20מט"
+          target="_blank"
+        >
+          לפרטים והזמנה
+        </a>
+
+      </div>
+
+    </article>
+
+
+
+    <!-- PRODUCT 3 -->
+
+    <article class="product-card">
+
+      <span class="stock low">
+        נשאר מעט
+      </span>
+
+      <img
+        class="product-image"
+        src="carbon.jpg"
+        alt="קרבון"
+      >
+
+      <div class="product-info">
+
+        <h3>קרבון</h3>
+
+        <p class="product-type">
+          Carbon Fiber
+        </p>
+
+        <a
+          class="product-btn"
+          href="https://wa.me/972504469777?text=שלום,%20אני%20מעוניין%20בקרבון"
+          target="_blank"
+        >
+          לפרטים והזמנה
+        </a>
+
+      </div>
+
+    </article>
+
+
+
+    <!-- PRODUCT 4 -->
+
+    <article class="product-card sold-out">
+
+      <span class="stock out">
+        אזל מהמלאי
+      </span>
+
+      <img
+        class="product-image"
+        src="nardo-grey.jpg"
+        alt="אפור נרדו"
+      >
+
+      <div class="product-info">
+
+        <h3>אפור נרדו</h3>
+
+        <p class="product-type">
+          Nardo Grey
+        </p>
+
+        <a class="product-btn">
+          לא זמין כרגע
+        </a>
+
+      </div>
+
+    </article>
+
+
   </div>
-`).join('');
 
-galleryCount.textContent = `${workImages.length} תמונות בגלריה`;
+</section>
 
-const cards = Array.from(document.querySelectorAll('.card'));
-let index = 0;
-const total = cards.length;
-const get = i => (i + total) % total;
-
-function update() {
-  cards.forEach(card => card.className = 'card');
-  cards[get(index)].classList.add('active');
-  cards[get(index + 1)].classList.add('next');
-  cards[get(index + 2)].classList.add('next2');
-  cards[get(index - 1)].classList.add('prev');
-  cards[get(index - 2)].classList.add('prev2');
-}
-
-update();
-
-/* Auto-advance pauses while the user is touching or viewing an image. */
-let autoTimer = null;
-let userInteracting = false;
-
-function startAuto() {
-  stopAuto();
-  autoTimer = setInterval(() => {
-    if (!userInteracting) {
-      index = get(index + 1);
-      update();
-    }
-  }, 2800);
-}
-
-function stopAuto() {
-  if (autoTimer) clearInterval(autoTimer);
-}
-
-startAuto();
-
-let startX = 0;
-
-slider.addEventListener('touchstart', e => {
-  userInteracting = true;
-  startX = e.touches[0].clientX;
-});
-
-slider.addEventListener('touchend', e => {
-  const dx = e.changedTouches[0].clientX - startX;
-  if (dx < -50) index++;
-  if (dx > 50) index--;
-  index = get(index);
-  update();
-  userInteracting = false;
-});
-
-const viewer = document.getElementById('viewer');
-const viewerImg = document.getElementById('viewerImg');
-const closeViewer = document.getElementById('closeViewer');
-let scale = 1;
-
-function openViewer(card) {
-  if (!card.classList.contains('active')) return;
-  userInteracting = true;
-  const image = card.querySelector('img');
-  viewerImg.src = image.src;
-  viewerImg.alt = image.alt;
-  viewer.classList.add('active');
-  viewer.setAttribute('aria-hidden', 'false');
-  scale = 1;
-  viewerImg.style.transform = 'scale(1)';
-}
-
-function closeImageViewer() {
-  viewer.classList.remove('active');
-  viewer.setAttribute('aria-hidden', 'true');
-  viewerImg.removeAttribute('src');
-  userInteracting = false;
-}
-
-cards.forEach(card => {
-  card.addEventListener('click', () => openViewer(card));
-});
-
-closeViewer.addEventListener('click', closeImageViewer);
-
-viewer.addEventListener('click', e => {
-  if (e.target === viewer) closeImageViewer();
-});
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && viewer.classList.contains('active')) closeImageViewer();
-});
-
-/* Pinch zoom for mobile fullscreen images. */
-let startDist = 0;
-let baseScale = 1;
-
-viewer.addEventListener('touchstart', e => {
-  if (e.touches.length === 2) {
-    startDist = Math.hypot(
-      e.touches[0].clientX - e.touches[1].clientX,
-      e.touches[0].clientY - e.touches[1].clientY
-    );
-    baseScale = scale;
-  }
-}, { passive: false });
-
-viewer.addEventListener('touchmove', e => {
-  if (e.touches.length === 2) {
-    e.preventDefault();
-    const dist = Math.hypot(
-      e.touches[0].clientX - e.touches[1].clientX,
-      e.touches[0].clientY - e.touches[1].clientY
-    );
-    scale = Math.max(1, Math.min(3, baseScale * dist / startDist));
-    viewerImg.style.transform = `scale(${scale})`;
-  }
-}, { passive: false });
-</script>
 
 </body>
 </html>
